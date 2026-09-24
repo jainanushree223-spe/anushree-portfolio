@@ -92,11 +92,39 @@ h1,h2,h3,p{margin:0}
   will-change:transform;
 }
 .hero__sun{
-  position:absolute;left:calc(1147 * var(--s));top:calc(69 * var(--s));
-  width:calc(168 * var(--s));height:calc(168 * var(--s));border-radius:50%;
-  background:repeating-linear-gradient(135deg, var(--sun) 0 calc(8 * var(--s)), rgba(245,206,58,0) calc(8 * var(--s)) calc(16.5 * var(--s)));
+  position:absolute;
+  left:calc(1147 * var(--s));
+  top:calc(69 * var(--s));
+  width:calc(168 * var(--s));
+  height:calc(168 * var(--s));
+  border-radius:50%;
+
+  background:repeating-linear-gradient(
+    135deg,
+    var(--sun) 0 calc(8 * var(--s)),
+    rgba(245,206,58,0) calc(8 * var(--s)) calc(16.5 * var(--s))
+  );
+
   will-change:transform;
+  z-index:2;
 }
+
+.hero__sun::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:calc(300 * var(--s));
+  height:calc(300 * var(--s));
+  transform:translate(-50%,-50%);
+
+  background:url("assets/illustrations/sun-gradient.webp")
+    center/contain no-repeat;
+
+  z-index:-1;
+  pointer-events:none;
+}
+
 .hero__cloud{position:absolute;will-change:transform}
 .hero__cloud--a{left:calc(880 * var(--s));top:calc(125 * var(--s));width:calc(258 * var(--s))}
 .hero__cloud--b{left:calc(1312 * var(--s));top:calc(155 * var(--s));width:calc(128 * var(--s))}
