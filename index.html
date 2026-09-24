@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anushree Jain — Motion Prototype V1</title>
+<meta name="description" content="Motion prototype V1 — the approved portfolio design with the reference motion language applied.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<header class="nav" id="nav">
+  <div class="nav__loc">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="10" r="2.6" stroke="currentColor" stroke-width="1.7"/></svg>
+    <span>Ahmedabad, India</span>
+  </div>
+  <nav class="nav__pill" aria-label="Primary">
+    <span class="nav__avatar" aria-hidden="true"></span>
+    <a class="nav__link nav__link--ring" href="#work">Work</a>
+    <a class="nav__link" href="#about">About</a>
+    <a class="nav__cta" href="#resume">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="currentColor"/><path d="M3.5 6.5 12 13l8.5-6.5" stroke="#fff" stroke-width="1.7" fill="none"/></svg>
+      <span>Resume</span>
+    </a>
+  </nav>
+</header>
+
+<!-- ══════════ 01 · HERO ══════════ -->
+<section class="hero" id="hero">
+  <div class="hero__pin">
+    <div class="hero__sky" data-layer="sky">
+      <div class="hero__sun" aria-hidden="true"></div>
+      <img class="hero__cloud hero__cloud--a" src="assets/illustrations/hero-cloud-a.webp" alt="" aria-hidden="true">
+      <img class="hero__cloud hero__cloud--b" src="assets/illustrations/hero-cloud-b.webp" alt="" aria-hidden="true">
+    </div>
+
+    <div class="hero__content" data-layer="content">
+      <p class="hero__kicker"><i class="dot"></i><span>HELLO, I&rsquo;M ANUSHREE JAIN. A &ndash;</span></p>
+      <p class="hero__vertical">PRODUCT / UX / CRO</p>
+
+      <h1 class="hero__title">
+        <span class="line" data-split>Designer who</span>
+        <span class="line line--swap">
+          <span class="swap" id="swap">Builds</span>
+        </span>
+      </h1>
+
+      <!-- Audio player -->
+      <div class="player" id="player">
+        <img class="player__shell" src="assets/illustrations/cassette-shell.webp" alt="" aria-hidden="true">
+        <div class="player__ui">
+          <p class="player__label">My design journey, rapped</p>
+          <div class="player__track" id="track"><span class="player__fill" id="fill"></span><span class="player__knob" id="knob"></span></div>
+          <p class="player__times"><span id="tNow">0:00</span><span id="tEnd">1:23</span></p>
+          <button class="player__btn" id="playBtn" type="button" aria-label="Play track">
+            <svg class="ico ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2 19 12 8 18.8Z" fill="currentColor"/></svg>
+            <svg class="ico ico--pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7.4" y="5.4" width="3.4" height="13.2" rx="1.1" fill="currentColor"/><rect x="13.2" y="5.4" width="3.4" height="13.2" rx="1.1" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <span class="player__reel player__reel--l" aria-hidden="true"></span>
+        <span class="player__reel player__reel--r" aria-hidden="true"></span>
+      </div>
+      <audio id="audio" src="assets/audio/placeholder-track.mp3" preload="metadata"></audio>
+    </div>
+
+    <!-- the cream cloud edge that rises to cover the hero -->
+    <div class="hero__sheet" id="heroSheet" aria-hidden="true">
+      <img class="hero__art" src="assets/illustrations/hero-clouds.webp" alt="">
+      <span class="hero__fill"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 02 · INTRODUCTION ══════════ -->
+<section class="intro" id="about">
+  <p class="intro__body" data-reveal>Product designer blending UX, visual design and CRO to turn complex problems into simple, engaging digital experiences with a particular love for thoughtful interactions and tiny details.</p>
+  <p class="intro__lead" data-reveal>I believe the best designs don&rsquo;t ask for attention they earn it through thoughtful details.</p>
+</section>
+
+<!-- ══════════ 03 · PIXELS AND PIECES ══════════ -->
+<section class="work" id="work">
+  <h2 class="work__heading" data-split-words>Pixels and pieces I&rsquo;ve put together throughout my design journey.</h2>
+  <div class="work__grid">
+    <a class="cell cell--a" data-cell href="#"><img src="assets/images/work-01.jpg" alt="Project one"></a>
+    <div class="cell cell--b is-empty" data-cell></div>
+    <a class="cell cell--c" data-cell href="#"><img src="assets/images/work-03.jpg" alt="Project three"></a>
+    <div class="cell cell--d is-empty" data-cell></div>
+  </div>
+</section>
+
+<!-- ══════════ 04 · OTHER PROJECTS ══════════ -->
+<section class="fun" id="fun">
+  <img class="fun__bg" id="funBg" src="assets/illustrations/projects-bg.jpg" alt="" aria-hidden="true">
+  <img class="fun__fg" id="funFg" src="assets/illustrations/projects-fg.jpg" alt="" aria-hidden="true">
+  <h2 class="fun__heading" data-split-words>Other projects (the fun kind)</h2>
+  <div class="fun__cards">
+    <a class="fcard" href="#" data-fcard>
+      <span class="fcard__badge" aria-hidden="true"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="7" fill="#1769FF"/><text x="24" y="31" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="700" fill="#fff">Bē</text></svg></span>
+      <h3 class="fcard__title">Food Redistribution</h3>
+      <p class="fcard__sub">Connecting Surplus food with those in need</p>
+      <span class="fcard__thumb"><img src="assets/images/card-01.jpg" alt="Food Redistribution"></span>
+    </a>
+    <a class="fcard" href="#" data-fcard>
+      <span class="fcard__badge" aria-hidden="true"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="7" fill="#1769FF"/><text x="24" y="31" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="700" fill="#fff">Bē</text></svg></span>
+      <h3 class="fcard__title">Game Design</h3>
+      <p class="fcard__sub">Unity based mini game on Takeshi&rsquo;s Castle</p>
+      <span class="fcard__thumb"><img src="assets/images/card-02.jpg" alt="Game Design"></span>
+    </a>
+    <a class="fcard" href="#" data-fcard>
+      <span class="fcard__badge" aria-hidden="true"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="7" fill="#1769FF"/><text x="24" y="31" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="700" fill="#fff">Bē</text></svg></span>
+      <h3 class="fcard__title">Campaign management</h3>
+      <p class="fcard__sub">Simplifies Campaign creation and Management</p>
+      <span class="fcard__thumb"><img src="assets/images/card-03.jpg" alt="Campaign management"></span>
+    </a>
+  </div>
+</section>
+
+<!-- ══════════ 05 · SNEAK PEEK ══════════ -->
+<section class="peek" id="peek">
+  <h2 class="peek__heading" data-split-words>Sneak peak of my visual journey</h2>
+  <div class="peek__strip" id="peekStrip">
+    <figure class="peek__item" data-peek><img src="assets/images/visual-01.jpg" alt="Visual piece one"></figure>
+    <figure class="peek__item" data-peek><img src="assets/images/visual-02.jpg" alt="Visual piece two"></figure>
+    <figure class="peek__item" data-peek><img src="assets/images/visual-03.jpg" alt="Visual piece three"></figure>
+    <figure class="peek__item" data-peek><img src="assets/images/visual-04.jpg" alt="Visual piece four"></figure>
+    <figure class="peek__item" data-peek><img src="assets/images/visual-05.jpg" alt="Visual piece five"></figure>
+  </div>
+</section>
+
+<!-- ══════════ 05b · PEEK→CTA WAVE TRANSITION ══════════ -->
+<div class="peek-cta-pin" id="peekCtaPin">
+  <div class="cta-sheet" id="ctaSheet" aria-hidden="true">
+    <img class="cta-sheet__art" src="assets/illustrations/cta-wave-transition.webp" alt="">
+    <span class="cta-sheet__fill"></span>
+  </div>
+</div>
+
+<!-- ══════════ 06 · FINAL CTA ══════════ -->
+<section class="cta" id="resume">
+  <img class="cta__wave" src="assets/illustrations/cta-wave.jpg" alt="" aria-hidden="true">
+  <p class="cta__body" data-reveal>From early concepts to refined experiences, I help ambitious teams build products that earn trust, move quickly and drive growth.</p>
+  <h2 class="cta__title" data-split-words>Let&rsquo;s grow your next idea</h2>
+
+  <div class="cta__scene" id="ctaScene">
+    <img class="cta__hills" src="assets/illustrations/cta-hills.webp" alt="" aria-hidden="true">
+    <div class="cta__plants" id="ctaPlants" aria-hidden="true"><!-- wind slices injected by JS --></div>
+  </div>
+
+  <footer class="foot">
+    <span>Designed by Anushree Jain &middot; 2026</span>
+    <span class="foot__links"><a href="#">LinkedIn</a><a href="#">Behance</a></span>
+  </footer>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,1149 @@
+<title>Designer Who Builds</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* the host page wrapper adds its own reset; neutralise it so the
+   composition below is byte-for-byte the local prototype */
+:root{padding:0 !important;color-scheme:light}
+html,body{margin:0;padding:0;font-size:16px}
+
+/* ═══════════════════════════════════════════════════════════
+   Anushree Jain — Motion Prototype V1
+   The visual design is the source of truth. Every value below is
+   measured from the approved desktop comp (1440px design width)
+   and expressed in design units via --s, so the composition
+   scales without ever being re-laid-out.
+   ═══════════════════════════════════════════════════════════ */
+
+:root{
+  /* 1 design px. Caps at 1800px viewport so type stops growing. */
+  --s: min(calc(100vw / 1440), 1.25px);
+
+  --sky-1:#6FAFD8;
+  --sky-2:#3E92F5;
+  --sky-3:#A9D0EF;
+  --cream:#FFFAF0;      /* section 02 / 03 */
+  --cream-2:#FFF9F1;    /* section 05 */
+  --sand:#EEE8D2;       /* section 04 */
+  --sand-2:#F0EAD4;     /* section 06 */
+  --ink:#12100D;
+  --paper:#FFF8EC;
+  --sun:#F5CE3A;
+  --ease:cubic-bezier(.22,1,.36,1);
+  /* swap this one line when the real display font arrives */
+  --display:"Playfair Display",Georgia,serif;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:auto;overflow-x:clip}
+body{
+  margin:0;background:var(--cream);color:var(--ink);
+  font-family:"Plus Jakarta Sans",system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,p{margin:0}
+.serif{font-family:"Playfair Display",Georgia,serif}
+
+/* ───────────── NAV ───────────── */
+.nav{
+  position:fixed;inset:0 0 auto 0;z-index:60;
+  height:calc(96 * var(--s));
+  display:flex;align-items:center;
+  padding:0 calc(58 * var(--s));
+  pointer-events:none;
+}
+.nav > *{pointer-events:auto}
+.nav__loc{
+  display:flex;align-items:center;gap:calc(7 * var(--s));white-space:nowrap;
+  font-size:calc(15 * var(--s));font-weight:500;color:#fff;
+  text-shadow:0 1px 6px rgba(20,60,110,.22);
+}
+.nav__loc svg{width:calc(17 * var(--s));height:calc(17 * var(--s));flex:0 0 auto}
+.nav__loc span{border-bottom:1px solid rgba(255,255,255,.75);padding-bottom:calc(1 * var(--s))}
+
+.nav__pill{
+  position:absolute;left:50%;top:calc(26 * var(--s));transform:translateX(-50%);
+  display:flex;align-items:center;gap:calc(20 * var(--s));
+  height:calc(44 * var(--s));padding:calc(5 * var(--s)) calc(8 * var(--s)) calc(5 * var(--s)) calc(5 * var(--s));
+  border-radius:999px;
+  background:rgba(255,255,255,.34);
+  border:1px solid rgba(255,255,255,.55);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  font-size:calc(15 * var(--s));font-weight:500;
+  will-change:transform;
+}
+.nav__avatar{
+  width:calc(34 * var(--s));height:calc(34 * var(--s));border-radius:50%;
+  background:#C7A98E url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><circle cx='20' cy='15' r='7' fill='%23412E20'/><path d='M4 40c2-10 8-14 16-14s14 4 16 14z' fill='%23F0E3D4'/></svg>") center/cover;
+  flex:0 0 auto;
+}
+.nav__link{padding:calc(4 * var(--s)) calc(2 * var(--s));white-space:nowrap}
+.nav__link--ring{border:1px solid var(--ink);border-radius:999px;padding:calc(5 * var(--s)) calc(17 * var(--s))}
+.nav__cta{
+  display:flex;align-items:center;gap:calc(8 * var(--s));
+  background:#fff;border-radius:999px;padding:calc(7 * var(--s)) calc(17 * var(--s));
+  white-space:nowrap;
+}
+.nav__cta svg{width:calc(19 * var(--s));height:calc(19 * var(--s));color:var(--ink)}
+
+/* ───────────── 01 · HERO ───────────── */
+.hero{position:relative;height:max(calc(810 * var(--s)), 100svh);overflow:hidden}
+.hero__pin{position:absolute;inset:0}
+
+.hero__sky{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(52% 40% at 84% 14%, rgba(255,255,255,.55) 0%, rgba(255,255,255,0) 70%),
+    url("assets/illustrations/hero-sky.png") center/100% 100% no-repeat,
+    #5FA6DE;
+  will-change:transform;
+}
+.hero__sun{
+  position:absolute;left:calc(1147 * var(--s));top:calc(69 * var(--s));
+  width:calc(168 * var(--s));height:calc(168 * var(--s));border-radius:50%;
+  background:repeating-linear-gradient(135deg, var(--sun) 0 calc(8 * var(--s)), rgba(245,206,58,0) calc(8 * var(--s)) calc(16.5 * var(--s)));
+  will-change:transform;
+}
+.hero__cloud{position:absolute;will-change:transform}
+.hero__cloud--a{left:calc(880 * var(--s));top:calc(125 * var(--s));width:calc(258 * var(--s))}
+.hero__cloud--b{left:calc(1312 * var(--s));top:calc(155 * var(--s));width:calc(128 * var(--s))}
+
+.hero__content{position:absolute;inset:0;will-change:transform}
+
+.hero__kicker{
+  position:absolute;left:calc(351 * var(--s));top:calc(200 * var(--s));
+  display:flex;align-items:center;gap:calc(11 * var(--s));
+  font-family:"JetBrains Mono",monospace;font-size:calc(13.5 * var(--s));
+  letter-spacing:.11em;color:var(--paper);
+}
+.hero__kicker .dot{width:calc(9 * var(--s));height:calc(9 * var(--s));border-radius:50%;background:var(--sun)}
+
+.hero__vertical{
+  position:absolute;left:calc(296 * var(--s));top:calc(256 * var(--s));
+  transform-origin:0 0;transform:rotate(-90deg) translateX(-100%);
+  font-family:"JetBrains Mono",monospace;font-size:calc(12.5 * var(--s));
+  letter-spacing:.2em;color:var(--paper);white-space:nowrap;
+}
+
+.hero__title{
+  position:absolute;left:0;top:calc(212 * var(--s));width:calc(1146 * var(--s));
+  font-family:var(--display);font-weight:500;
+  font-size:calc(111 * var(--s));line-height:calc(165 * var(--s));
+  color:var(--paper);text-align:right;letter-spacing:.075em;
+}
+.hero__title .line{display:block}
+.hero__title .line--swap{position:relative}
+.swap{display:inline-block;white-space:nowrap}
+.hero__title .ch{display:inline-block;will-change:transform;transform-origin:50% 70%}
+.hero__title .ch--space{width:.26em}
+.hero__title .ch.is-hot{color:var(--sun)}
+
+/* — cassette player — */
+.player{
+  position:absolute;left:calc(351 * var(--s));top:calc(399 * var(--s));
+  width:calc(391 * var(--s));height:calc(133 * var(--s));
+  will-change:transform;
+}
+.player__shell{position:absolute;inset:0;width:100%;height:100%;
+  filter:drop-shadow(0 calc(10 * var(--s)) calc(20 * var(--s)) rgba(30,70,110,.18))}
+.player__ui{position:absolute;left:calc(121 * var(--s));top:calc(13 * var(--s));width:calc(150 * var(--s));text-align:center}
+.player__label{font-family:"JetBrains Mono",monospace;font-size:calc(10.2 * var(--s));color:#3B362C;letter-spacing:0}
+.player__track{
+  position:relative;margin:calc(8 * var(--s)) 0 calc(3 * var(--s));
+  height:calc(8.2 * var(--s));border-radius:999px;background:#544C40;cursor:pointer;
+}
+.player__fill{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:999px;background:#C9B98F}
+.player__knob{
+  position:absolute;left:0;top:50%;width:calc(17 * var(--s));height:calc(17 * var(--s));
+  margin-left:calc(-8.5 * var(--s));border-radius:50%;
+  background:radial-gradient(circle at 34% 28%, #fff 0 22%, #E4E1D8 52%, #BDB9AD 100%);
+  box-shadow:0 calc(1 * var(--s)) calc(3 * var(--s)) rgba(0,0,0,.3);transform:translateY(-50%);
+}
+.player__times{display:flex;justify-content:space-between;font-family:"JetBrains Mono",monospace;font-size:calc(10.2 * var(--s));color:#3B362C}
+.player__btn{
+  position:absolute;left:50%;top:calc(66 * var(--s));transform:translateX(-50%);
+  width:calc(30 * var(--s));height:calc(30 * var(--s));border-radius:50%;border:0;
+  background:#4A4034;color:#EFE9DC;display:grid;place-items:center;cursor:pointer;padding:0;
+  will-change:transform;
+}
+.player__btn .ico{width:calc(15 * var(--s));height:calc(15 * var(--s));grid-area:1/1;
+  transition:opacity .22s var(--ease),transform .22s var(--ease)}
+.player__btn .ico--pause{opacity:0;transform:scale(.7)}
+.player.is-playing .ico--play{opacity:0;transform:scale(.7)}
+.player.is-playing .ico--pause{opacity:1;transform:scale(1)}
+
+/* soft glow over the reel hubs — the only "playing" cue on the artwork */
+.player__reel{
+  position:absolute;top:calc(38.2 * var(--s));width:calc(34 * var(--s));height:calc(34 * var(--s));
+  border-radius:50%;pointer-events:none;opacity:0;
+  background:radial-gradient(circle, rgba(255,246,198,.85) 0 30%, rgba(255,246,198,0) 72%);
+}
+.player__reel--l{left:calc(46.7 * var(--s))}
+.player__reel--r{right:calc(46.7 * var(--s))}
+
+/* the cream cloud edge that rises over the hero */
+.hero__sheet{
+  position:absolute;left:0;bottom:calc(-168 * var(--s));width:100%;
+  z-index:5;pointer-events:none;will-change:transform;
+}
+.hero__art{width:100%;height:auto;display:block}
+.hero__fill{
+  position:absolute;left:0;top:92%;width:100%;height:160vh;
+  background:var(--cream);
+}
+
+/* ───────────── 02 · INTRODUCTION ───────────── */
+.intro{
+  background:var(--cream);
+  padding:calc(162 * var(--s)) 0 0;
+  text-align:center;
+}
+.intro__body,.intro__lead{
+  width:calc(940 * var(--s));margin:0 auto;
+  font-size:calc(28.5 * var(--s));line-height:calc(41 * var(--s));letter-spacing:-.008em;
+}
+.intro__lead{margin-top:calc(42 * var(--s));font-weight:700;width:calc(830 * var(--s));
+  font-size:calc(27.5 * var(--s));line-height:calc(40 * var(--s));letter-spacing:.009em}
+
+/* ───────────── 03 · PIXELS AND PIECES ───────────── */
+.work{background:var(--cream);padding:calc(106 * var(--s)) 0 calc(218 * var(--s))}
+.work__heading{
+  font-family:var(--display);font-weight:700;
+  font-size:calc(36.5 * var(--s));line-height:1.25;text-align:center;
+  letter-spacing:-.049em;margin-bottom:calc(33 * var(--s));
+}
+.work__grid{
+  width:calc(1195 * var(--s));margin:0 auto;
+  display:grid;gap:calc(26 * var(--s));
+  grid-template-columns:calc(753 * var(--s)) calc(415 * var(--s));
+  grid-template-rows:calc(562 * var(--s)) calc(554 * var(--s));
+}
+.cell{
+  position:relative;overflow:hidden;border-radius:calc(20 * var(--s));
+  background:#DCDEDF;display:block;will-change:transform;
+}
+.cell img{width:100%;height:100%;object-fit:cover;will-change:transform}
+.cell--a{grid-column:1;grid-row:1}
+.cell--b{grid-column:2;grid-row:1}
+.cell--c{grid-column:1;grid-row:2;width:calc(382 * var(--s))}
+.cell--d{grid-column:1/-1;grid-row:2;margin-left:calc(408 * var(--s));width:calc(788 * var(--s))}
+
+/* ───────────── 04 · OTHER PROJECTS ───────────── */
+.fun{
+  position:relative;height:calc(1246 * var(--s));
+  background:linear-gradient(#FFF9F1 0 1.6%, var(--sand) 1.6% 95.5%, #FFF9F1 95.5% 100%);
+}
+.fun__bg,.fun__fg{position:absolute;left:0;width:100%;height:auto;pointer-events:none;will-change:transform}
+.fun__bg{top:0}                       /* asset rows 0–1640 of 2078 */
+.fun__fg{top:calc(899.6 * var(--s))}  /* asset row 1500 of 2078 → 1500/2078*1246 */
+.fun__heading{
+  position:absolute;left:0;right:0;top:calc(180 * var(--s));
+  font-family:var(--display);font-weight:700;
+  font-size:calc(36.5 * var(--s));text-align:center;letter-spacing:-.049em;
+}
+.fun__cards{
+  position:absolute;left:0;right:0;margin:0 auto;top:calc(314 * var(--s));
+  width:max-content;display:flex;gap:calc(29 * var(--s));
+}
+.fcard{
+  position:relative;width:calc(403 * var(--s));height:calc(480 * var(--s));
+  border-radius:calc(22 * var(--s));padding:calc(37 * var(--s)) calc(37 * var(--s)) 0;
+  background:linear-gradient(160deg, rgba(255,255,255,.62), rgba(255,255,255,.34));
+  border:1px solid rgba(255,255,255,.55);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  box-shadow:0 calc(14 * var(--s)) calc(34 * var(--s)) rgba(46,60,32,.14);
+  overflow:hidden;will-change:transform;
+}
+.fcard__badge{display:block;width:calc(51 * var(--s));height:calc(51 * var(--s))}
+.fcard__badge svg{width:100%;height:100%}
+.fcard__title{margin-top:calc(22 * var(--s));font-size:calc(25 * var(--s));font-weight:700;letter-spacing:-.018em}
+.fcard__sub{margin-top:calc(7 * var(--s));font-size:calc(14 * var(--s));line-height:1.35}
+.fcard__thumb{display:block;margin-top:calc(19 * var(--s));border-radius:calc(12 * var(--s));overflow:hidden}
+.fcard__thumb img{width:100%;height:auto;will-change:transform}
+
+/* ───────────── 05 · SNEAK PEEK ───────────── */
+.peek{position:relative;overflow:hidden;background:var(--cream-2);padding:calc(68 * var(--s)) 0 calc(76 * var(--s))}
+.peek__heading{
+  font-family:var(--display);font-weight:700;
+  font-size:calc(36.5 * var(--s));text-align:center;letter-spacing:-.049em;
+  margin-bottom:calc(92 * var(--s));
+}
+.peek__strip{display:flex;gap:calc(28 * var(--s));width:max-content;will-change:transform}
+.peek__item{margin:0;width:calc(493 * var(--s));height:calc(611 * var(--s));overflow:hidden;background:var(--cream-2);flex:0 0 auto}
+.peek__item img{width:100%;height:100%;object-fit:cover;will-change:transform}
+
+/* ───────────── 05b · PEEK→CTA WAVE TRANSITION ───────────── */
+.peek-cta-pin{
+  position:relative;height:40vh;overflow:hidden;
+  background:var(--cream-2);      /* matches sneak-peek section */
+}
+.cta-sheet{
+  position:absolute;left:0;bottom:calc(-120 * var(--s));width:100%;
+  z-index:5;pointer-events:none;will-change:transform;
+}
+.cta-sheet__art{width:100%;height:auto;display:block}
+.cta-sheet__fill{
+  position:absolute;left:0;top:60%;width:100%;height:200vh;
+  background:var(--sand-2);       /* matches CTA section background */
+}
+
+/* ───────────── 06 · FINAL CTA ───────────── */
+.cta{
+  position:relative;background:var(--sand-2);
+  height:calc(863 * var(--s));min-height:calc(680 * var(--s));overflow:hidden;
+  margin-top:-2px;  /* seal subpixel gap left by pinSpacing */
+}
+/* The animated peek→CTA wave transition IS the top boundary of the
+   footer — the static .cta__wave image is hidden so it doesn't
+   create a visual duplicate. */
+.cta__wave{display:none}
+.cta__body{
+  position:absolute;left:0;right:0;margin:0 auto;top:calc(203 * var(--s));
+  width:calc(800 * var(--s));text-align:center;
+  font-size:calc(21.2 * var(--s));line-height:calc(30 * var(--s));letter-spacing:.03em;
+}
+.cta__title{
+  position:absolute;left:0;right:0;margin:0 auto;top:calc(299 * var(--s));
+  width:calc(1360 * var(--s));text-align:center;white-space:nowrap;
+  font-family:var(--display);font-weight:700;
+  font-size:calc(115 * var(--s));line-height:1.05;letter-spacing:-.024em;
+}
+.cta__scene{position:absolute;left:0;bottom:0;width:100%;height:calc(880 * var(--s));pointer-events:none}
+.cta__hills,.cta__plants{position:absolute;left:0;bottom:0;width:100%;height:calc(880 * var(--s))}
+.cta__plants{overflow:hidden}
+.cta__plants .slice{position:absolute;left:0;bottom:0;width:100%;height:100%;
+  transform-origin:50% 100%;will-change:transform}
+.cta__plants .slice img{position:absolute;left:0;bottom:0;width:100%;height:100%}
+
+
+.foot{
+  position:absolute;left:0;right:0;bottom:calc(20 * var(--s));
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0 calc(22 * var(--s));
+  font-size:calc(13.5 * var(--s));color:#F2EDE0;z-index:3;
+}
+.foot__links{display:flex;gap:calc(42 * var(--s))}
+
+/* ───────────── motion base states (removed by JS on init) ───────────── */
+.js [data-reveal],
+.js [data-cell],
+.js [data-fcard],
+.js [data-peek]{opacity:0}
+.js .sw{opacity:0;display:inline-block}
+.js [data-split-words]{visibility:hidden}
+
+/* ───────────── RESPONSIVE ───────────── */
+@media (max-width:1024px){
+  :root{--s:calc(100vw / 1024)}
+  .hero{height:calc(900 * var(--s))}
+  .hero__title{font-size:calc(104 * var(--s));line-height:calc(134 * var(--s));width:calc(1180 * var(--s));top:calc(250 * var(--s))}
+  .player{left:calc(300 * var(--s));top:calc(440 * var(--s))}
+  .work__grid{width:calc(1240 * var(--s));grid-template-columns:calc(780 * var(--s)) calc(434 * var(--s))}
+}
+@media (max-width:760px){
+  :root{--s:calc(100vw / 390)}
+  .nav{height:calc(74 * var(--s));padding:0 calc(18 * var(--s))}
+  .nav__loc{font-size:calc(10.5 * var(--s))}
+  .nav__loc svg{width:calc(14 * var(--s));height:calc(14 * var(--s))}
+  .nav__pill{position:static;transform:none;margin-left:auto;gap:calc(9 * var(--s));height:calc(38 * var(--s));font-size:calc(11.5 * var(--s));padding:calc(4 * var(--s))}
+  .nav__link--ring{padding:calc(4 * var(--s)) calc(11 * var(--s))}
+  .nav__cta{padding:calc(6 * var(--s)) calc(11 * var(--s))}
+
+  .hero{height:100svh;min-height:calc(600 * var(--s))}
+  .hero__sheet{bottom:calc(-46 * var(--s))}
+  .hero__art{width:230%;margin-left:-65%}
+  .hero__sun{left:calc(258 * var(--s));top:calc(92 * var(--s));width:calc(112 * var(--s));height:calc(112 * var(--s))}
+  .hero__cloud--a{left:calc(150 * var(--s));top:calc(150 * var(--s));width:calc(180 * var(--s))}
+  .hero__cloud--b{display:none}
+  .hero__kicker{left:calc(26 * var(--s));top:calc(232 * var(--s));font-size:calc(10.5 * var(--s));gap:calc(8 * var(--s))}
+  .hero__vertical{display:none}
+  .hero__title{left:calc(20 * var(--s));width:calc(350 * var(--s));top:calc(262 * var(--s));text-align:left;
+    font-size:calc(46 * var(--s));line-height:calc(60 * var(--s));letter-spacing:.04em}
+  .player{left:calc(20 * var(--s));top:calc(418 * var(--s));width:calc(300 * var(--s));height:calc(102 * var(--s))}
+  .player__ui{left:calc(84 * var(--s));top:calc(15 * var(--s));width:calc(132 * var(--s))}
+  .player__btn{top:calc(67 * var(--s));width:calc(24 * var(--s));height:calc(24 * var(--s))}
+  .player__reel{top:calc(22 * var(--s));width:calc(58 * var(--s));height:calc(58 * var(--s))}
+  .player__reel--l{left:calc(13 * var(--s))} .player__reel--r{right:calc(13 * var(--s))}
+
+  .intro{padding-top:calc(80 * var(--s))}
+  .intro__body{width:calc(330 * var(--s));font-size:calc(15 * var(--s));line-height:calc(26 * var(--s))}
+  .intro__lead{width:calc(330 * var(--s));font-size:calc(15 * var(--s));line-height:calc(26 * var(--s));margin-top:calc(24 * var(--s))}
+
+  .work{padding:calc(56 * var(--s)) 0 calc(90 * var(--s))}
+  .work__heading{font-size:calc(24 * var(--s));width:calc(340 * var(--s));margin:0 auto calc(24 * var(--s))}
+  .work__grid{width:calc(344 * var(--s));gap:calc(12 * var(--s));
+    grid-template-columns:calc(200 * var(--s)) calc(132 * var(--s));
+    grid-template-rows:calc(210 * var(--s)) calc(200 * var(--s))}
+  .cell--c{width:auto}
+  .cell--d{grid-column:2;grid-row:2;margin-left:0;width:auto}
+  .cell--c{grid-column:1;grid-row:2}
+
+  .fun{height:calc(700 * var(--s))}
+  .fun__fg{top:calc(505 * var(--s))}
+  .fun__heading{top:calc(96 * var(--s));font-size:calc(24 * var(--s))}
+  .fun__cards{top:calc(170 * var(--s));left:0;transform:none;width:100%;overflow-x:auto;
+    padding:0 calc(20 * var(--s)) calc(20 * var(--s));gap:calc(14 * var(--s));
+    -webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .fun__cards::-webkit-scrollbar{display:none}
+  .fcard{width:calc(250 * var(--s));height:calc(300 * var(--s));padding:calc(20 * var(--s)) calc(20 * var(--s)) 0}
+  .fcard__badge{width:calc(34 * var(--s));height:calc(34 * var(--s))}
+  .fcard__title{font-size:calc(17 * var(--s));margin-top:calc(12 * var(--s))}
+  .fcard__sub{font-size:calc(11 * var(--s))}
+
+  .peek{padding:calc(48 * var(--s)) 0 calc(48 * var(--s))}
+  .peek__heading{font-size:calc(24 * var(--s));margin-bottom:calc(36 * var(--s))}
+  .peek__strip{gap:calc(14 * var(--s))}
+  .peek__item{width:calc(240 * var(--s));height:calc(298 * var(--s))}
+
+  .peek-cta-pin{height:30vh}
+  .cta-sheet{bottom:calc(-60 * var(--s))}
+  .cta-sheet__art{width:200%;margin-left:-50%}
+  .cta{height:calc(520 * var(--s))}
+  .cta__body{top:calc(70 * var(--s));width:calc(330 * var(--s));font-size:calc(13.5 * var(--s));line-height:calc(21 * var(--s))}
+  .cta__title{top:calc(140 * var(--s));font-size:calc(38 * var(--s));white-space:normal;width:calc(350 * var(--s))}
+  .cta__scene,.cta__hills,.cta__plants{height:calc(300 * var(--s))}
+  .foot{font-size:calc(10.5 * var(--s));padding:0 calc(16 * var(--s))}
+  .foot__links{gap:calc(18 * var(--s))}
+}
+
+/* ───────────── REDUCED MOTION ───────────── */
+@media (prefers-reduced-motion:reduce){
+  .js [data-reveal],.js [data-cell],.js [data-fcard],.js [data-peek],.js .sw{opacity:1 !important}
+  .js [data-split-words]{visibility:visible !important}
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
+</style>
+
+
+<!-- ══════════ NAV ══════════ -->
+<header class="nav" id="nav">
+  <div class="nav__loc">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="10" r="2.6" stroke="currentColor" stroke-width="1.7"/></svg>
+    <span>Ahmedabad, India</span>
+  </div>
+  <nav class="nav__pill" aria-label="Primary">
+    <span class="nav__avatar" aria-hidden="true"></span>
+    <a class="nav__link nav__link--ring" href="#work">Work</a>
+    <a class="nav__link" href="#about">About</a>
+    <a class="nav__cta" href="#resume">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="currentColor"/><path d="M3.5 6.5 12 13l8.5-6.5" stroke="#fff" stroke-width="1.7" fill="none"/></svg>
+      <span>Resume</span>
+    </a>
+  </nav>
+</header>
+
+<!-- ══════════ 01 · HERO ══════════ -->
+<section class="hero" id="hero">
+  <div class="hero__pin">
+    <div class="hero__sky" data-layer="sky">
+      <div class="hero__sun" aria-hidden="true"></div>
+      <img class="hero__cloud hero__cloud--a" src="assets/illustrations/hero-cloud-a.webp" alt="" aria-hidden="true">
+      <img class="hero__cloud hero__cloud--b" src="assets/illustrations/hero-cloud-b.webp" alt="" aria-hidden="true">
+    </div>
+
+    <div class="hero__content" data-layer="content">
+      <p class="hero__kicker"><i class="dot"></i><span>HELLO, I&rsquo;M ANUSHREE JAIN. A &ndash;</span></p>
+      <p class="hero__vertical">PRODUCT / UX / CRO</p>
+
+      <h1 class="hero__title">
+        <span class="line" data-split>Designer who</span>
+        <span class="line line--swap">
+          <span class="swap" id="swap">Builds</span>
+        </span>
+      </h1>
+
+      <!-- Audio player -->
+      <div class="player" id="player">
+        <img class="player__shell" src="assets/illustrations/cassette-shell.webp" alt="" aria-hidden="true">
+        <div class="player__ui">
+          <p class="player__label">My design journey, rapped</p>
+          <div class="player__track" id="track"><span class="player__fill" id="fill"></span><span class="player__knob" id="knob"></span></div>
+          <p class="player__times"><span id="tNow">0:00</span><span id="tEnd">1:23</span></p>
+          <button class="player__btn" id="playBtn" type="button" aria-label="Play track">
+            <svg class="ico ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2 19 12 8 18.8Z" fill="currentColor"/></svg>
+            <svg class="ico ico--pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7.4" y="5.4" width="3.4" height="13.2" rx="1.1" fill="currentColor"/><rect x="13.2" y="5.4" width="3.4" height="13.2" rx="1.1" fill="currentColor"/></svg>
+          </button>
+        </div>
+        <span class="player__reel player__reel--l" aria-hidden="true"></span>
+        <span class="player__reel player__reel--r" aria-hidden="true"></span>
+      </div>
+      <audio id="audio" src="assets/audio/placeholder-track.mp3" preload="metadata"></audio>
+    </div>
+
+    <!-- the cream cloud edge that rises to cover the hero -->
+    <div class="hero__sheet" id="heroSheet" aria-hidden="true">
+      <img class="hero__art" src="assets/illustrations/hero-clouds.webp" alt="">
+      <span class="hero__fill"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 02 · INTRODUCTION ══════════ -->
+<section class="intro" id="about">
+  <p class="intro__body" data-reveal>Product designer blending UX, visual design and CRO to turn complex problems into simple, engaging digital experiences with a particular love for thoughtful interactions and tiny details.</p>
+  <p class="intro__lead" data-reveal>I believe the best designs don&rsquo;t ask for attention they earn it through thoughtful details.</p>
+</section>
+
+<!-- ══════════ 03 · PIXELS AND PIECES ══════════ -->
+<section class="work" id="work">
+  <h2 class="work__heading" data-split-words>Pixels and pieces I&rsquo;ve put together throughout my design journey.</h2>
+  <div class="work__grid">
+    <a class="cell cell--a" data-cell href="#"><img src="assets/images/work-01.jpg" alt="Project one"></a>
+    <div class="cell cell--b is-empty" data-cell></div>
+    <a class="cell cell--c" data-cell href="#"><img src="assets/images/work-03.jpg" alt="Project three"></a>
+    <div class="cell cell--d is-empty" data-cell></div>
+  </div>
+</section>
+
+<!-- ══════════ 04 · OTHER PROJECTS ══════════ -->
+<section class="fun" id="fun">
+  <img class="fun__bg" id="funBg" src="assets/illustrations/projects-bg.jpg" alt="" aria-hidden="true">
+  <img class="fun__fg" id="funFg" src="assets/illustrations/projects-fg.jpg" alt="" aria-hidden="true">
+  <h2 class="fun__heading" data-split-words>Other projects (the fun kind)</h2>
+  <div class="fun__cards">
+    <a class="fcard" href="#" data-fcard>
+      <span class="fcard__badge" aria-hidden="true"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="7" fill="#1769FF"/><text x="24" y="31" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="700" fill="#fff">Bē</text></svg></span>
+      <h3 class="fcard__title">Food Redistribution</h3>
+      <p class="fcard__sub">Connecting Surplus food with those in need</p>
+      <span class="fcard__thumb"><img src="assets/images/card-01.jpg" alt="Food Redistribution"></span>
+    </a>
+    <a class="fcard" href="#" data-fcard>
+      <span class="fcard__badge" aria-hidden="true"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="7" fill="#1769FF"/><text x="24" y="31" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="700" fill="#fff">Bē</text></svg></span>
+      <h3 class="fcard__title">Game Design</h3>
+      <p class="fcard__sub">Unity based mini game on Takeshi&rsquo;s Castle</p>
+      <span class="fcard__thumb"><img src="assets/images/card-02.jpg" alt="Game Design"></span>
+    </a>
+    <a class="fcard" href="#" data-fcard>
+      <span class="fcard__badge" aria-hidden="true"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="7" fill="#1769FF"/><text x="24" y="31" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="700" fill="#fff">Bē</text></svg></span>
+      <h3 class="fcard__title">Campaign management</h3>
+      <p class="fcard__sub">Simplifies Campaign creation and Management</p>
+      <span class="fcard__thumb"><img src="assets/images/card-03.jpg" alt="Campaign management"></span>
+    </a>
+  </div>
+</section>
+
+<!-- ══════════ 05 · SNEAK PEEK ══════════ -->
+<section class="peek" id="peek">
+  <h2 class="peek__heading" data-split-words>Sneak peak of my visual journey</h2>
+  <div class="peek__strip" id="peekStrip">
+    <figure class="peek__item" data-peek><img src="assets/images/visual-01.jpg" alt="Visual piece one"></figure>
+    <figure class="peek__item" data-peek><img src="assets/images/visual-02.jpg" alt="Visual piece two"></figure>
+    <figure class="peek__item" data-peek><img src="assets/images/visual-03.jpg" alt="Visual piece three"></figure>
+    <figure class="peek__item" data-peek><img src="assets/images/visual-04.jpg" alt="Visual piece four"></figure>
+    <figure class="peek__item" data-peek><img src="assets/images/visual-05.jpg" alt="Visual piece five"></figure>
+  </div>
+</section>
+
+<!-- ══════════ 05b · PEEK→CTA WAVE TRANSITION ══════════ -->
+<div class="peek-cta-pin" id="peekCtaPin">
+  <div class="cta-sheet" id="ctaSheet" aria-hidden="true">
+    <img class="cta-sheet__art" src="assets/illustrations/cta-wave-transition.webp" alt="">
+    <span class="cta-sheet__fill"></span>
+  </div>
+</div>
+
+<!-- ══════════ 06 · FINAL CTA ══════════ -->
+<section class="cta" id="resume">
+  <img class="cta__wave" src="assets/illustrations/cta-wave.jpg" alt="" aria-hidden="true">
+  <p class="cta__body" data-reveal>From early concepts to refined experiences, I help ambitious teams build products that earn trust, move quickly and drive growth.</p>
+  <h2 class="cta__title" data-split-words>Let&rsquo;s grow your next idea</h2>
+
+  <div class="cta__scene" id="ctaScene">
+    <img class="cta__hills" src="assets/illustrations/cta-hills.webp" alt="" aria-hidden="true">
+    <div class="cta__plants" id="ctaPlants" aria-hidden="true"><!-- wind slices injected by JS --></div>
+  </div>
+
+  <footer class="foot">
+    <span>Designed by Anushree Jain &middot; 2026</span>
+    <span class="foot__links"><a href="#">LinkedIn</a><a href="#">Behance</a></span>
+  </footer>
+</section>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>/* ════════════════════════════════════════════════════════════
+   Anushree Jain — Motion Prototype V1
+   Motion layer only. Nothing here changes the layout: every
+   animated property is transform / opacity / clip.
+
+   CONFIG lives at the top so timings can be tuned without
+   hunting through the file.
+   ════════════════════════════════════════════════════════════ */
+
+const CONFIG = {
+  hero: {
+    /* how much scroll the hero→intro wave transition consumes,
+       as a multiple of viewport height */
+    pinLength: 1.15,
+    /* fraction of the pin during which the wave rises (0 → this) */
+    waveEnd: 0.80,
+    /* fraction of the pin at which the intro copy is allowed in.
+       The gap between waveEnd and copyStart IS the breathing room. */
+    copyStart: 0.86,
+    contentDrift: -86,   // px the hero content lifts across the pin
+    skyDrift: -34,       // px the sky lifts (slower = depth)
+    sunDrift: -20
+  },
+  marquee: {
+    speed: 22,           // seconds for one full cycle (desktop)
+    speedMobile: 20,     // seconds for one full cycle (mobile)
+    hoverScale: 0.12     // timeScale when hovering (near-pause)
+  },
+  letter: { y: -4, scale: 1.03, rot: 1.6, dur: 0.42 },
+  reveal: { y: 42, dur: 0.95, stagger: 0.14 },
+  grid:   { y: 46, scale: 0.972, dur: 1.05, stagger: 0.125 },
+  cards:  { y: 52, dur: 1.0, stagger: 0.11 },
+  peek:   { y: 46, dur: 0.95, stagger: 0.11, drift: 90 },
+  ctaWave: { pinLength: 0.6, waveEnd: 0.85 },
+  parallax: { funBg: 16, funFg: 30 },
+  /* per-cluster breeze — each flower cluster sways independently
+     with its own rotation range, duration and delay, so the motion
+     reads as natural wind rather than a single animation effect.
+     transform-origin is always bottom-center (set in the slice CSS). */
+  wind: [
+    { rot: 1.5,  dur: 2.8, delay: 0.0 },   // cluster 1  (small flowers)
+    { rot: 2.0,  dur: 3.4, delay: 0.5 },   // cluster 2  (taller stems)
+    { rot: 1.5,  dur: 2.6, delay: 1.0 },   // cluster 3  (grasses)
+    { rot: 2.5,  dur: 3.8, delay: 0.3 },   // cluster 4  (lavender)
+    { rot: 2.0,  dur: 3.2, delay: 0.7 }    // cluster 5  (mixed)
+  ]
+};
+
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const MOBILE  = window.matchMedia('(max-width: 760px)').matches;
+document.documentElement.classList.add('js');
+
+gsap.registerPlugin(ScrollTrigger);
+gsap.defaults({ ease: 'power3.out' });
+
+const $  = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+
+/* ─────────────────────────────────────────────
+   Text splitting helpers
+   ───────────────────────────────────────────── */
+function splitChars(el) {
+  const text = el.textContent;
+  el.textContent = '';
+  const out = [];
+  for (const c of text) {
+    const s = document.createElement('span');
+    s.className = 'ch' + (c === ' ' ? ' ch--space' : '');
+    s.textContent = c === ' ' ? ' ' : c;
+    el.appendChild(s);
+    if (c !== ' ') out.push(s);
+  }
+  return out;
+}
+
+/* words wrapped in an overflow mask — used for editorial heading reveals */
+function splitWordsMasked(el) {
+  const words = el.textContent.trim().split(/\s+/);
+  el.textContent = '';
+  el.style.visibility = 'visible';
+  const inners = [];
+  words.forEach((w, i) => {
+    const mask = document.createElement('span');
+    mask.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:top';
+    const inner = document.createElement('span');
+    inner.className = 'sw';
+    inner.textContent = w;
+    mask.appendChild(inner);
+    el.appendChild(mask);
+    if (i < words.length - 1) el.appendChild(document.createTextNode(' '));
+    inners.push(inner);
+  });
+  return inners;
+}
+
+/* ─────────────────────────────────────────────
+   01 · HERO — load-in
+   ───────────────────────────────────────────── */
+const heroLine1 = $('.hero__title .line[data-split]');
+const line1Chars = splitChars(heroLine1);
+const swapEl = $('#swap');
+
+/* "Builds" stays permanently — split into chars for hover interaction.
+   bindLetterHover is called in init() after it's defined. */
+let swapChars = splitChars(swapEl);
+
+function heroIntro() {
+  if (REDUCED) return;
+  const tl = gsap.timeline({ delay: 0.15 });
+  tl.from('.nav__loc',  { y: -14, opacity: 0, duration: .8 }, 0)
+    .from('.nav__pill', { y: -18, opacity: 0, duration: .9 }, .05)
+    .from('.hero__sun', { scale: .82, opacity: 0, duration: 1.4, ease: 'expo.out', transformOrigin: '50% 50%' }, .1)
+    .from('.hero__cloud', { xPercent: 8, opacity: 0, duration: 1.6, stagger: .12 }, .15)
+    .from('.hero__kicker', { y: 16, opacity: 0, duration: .9 }, .35)
+    .from('.hero__vertical', { y: 20, opacity: 0, duration: .9 }, .42)
+    .from(line1Chars, { y: 46, opacity: 0, duration: 1.05, stagger: .028, ease: 'expo.out' }, .3)
+    .from(swapChars,  { y: 46, opacity: 0, duration: 1.05, stagger: .028, ease: 'expo.out' }, .46)
+    .from('.player',  { y: 26, scale: .965, opacity: 0, duration: 1.1, ease: 'expo.out' }, .58)
+    ;
+  return tl;
+}
+
+/* — decorative loop: clouds drift, sun breathes — */
+function heroAmbient() {
+  if (REDUCED) return;
+  gsap.to('.hero__cloud--a', { x: 26, duration: 16, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+  gsap.to('.hero__cloud--b', { x: -18, duration: 19, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+  gsap.to('.hero__sun', { rotation: 360, duration: 220, repeat: -1, ease: 'none' });
+}
+
+/* 01a · Word cycler — REMOVED
+   "Builds" is now permanent. No cycling. */
+
+/* ─────────────────────────────────────────────
+   01b · Per-letter hover
+   ───────────────────────────────────────────── */
+function bindLetterHover(chars) {
+  if (REDUCED || MOBILE) return;
+  chars.forEach((ch, i) => {
+    const rot = (i % 2 ? 1 : -1) * CONFIG.letter.rot;
+    ch.addEventListener('pointerenter', () => {
+      ch.classList.add('is-hot');
+      gsap.to(ch, {
+        y: CONFIG.letter.y, scale: CONFIG.letter.scale, rotation: rot,
+        duration: CONFIG.letter.dur, ease: 'back.out(2.6)', overwrite: 'auto'
+      });
+    });
+    ch.addEventListener('pointerleave', () => {
+      ch.classList.remove('is-hot');
+      gsap.to(ch, { y: 0, scale: 1, rotation: 0, duration: .55, ease: 'power3.out', overwrite: 'auto' });
+    });
+  });
+}
+bindLetterHover(line1Chars);
+
+/* ─────────────────────────────────────────────
+   01c · Cassette audio player
+   ───────────────────────────────────────────── */
+(function player() {
+  const el = $('#player'), audio = $('#audio'), btn = $('#playBtn');
+  const fill = $('#fill'), knob = $('#knob'), track = $('#track');
+  const tNow = $('#tNow'), tEnd = $('#tEnd');
+  let reelTween = null;
+
+  const fmt = s => {
+    if (!isFinite(s)) return '0:00';
+    const m = Math.floor(s / 60), r = Math.floor(s % 60);
+    return `${m}:${String(r).padStart(2, '0')}`;
+  };
+
+  audio.addEventListener('loadedmetadata', () => { tEnd.textContent = fmt(audio.duration); });
+
+  function paint() {
+    const p = audio.duration ? audio.currentTime / audio.duration : 0;
+    fill.style.width = (p * 100) + '%';
+    knob.style.left  = (p * 100) + '%';
+    tNow.textContent = fmt(audio.currentTime);
+  }
+  audio.addEventListener('timeupdate', paint);
+  audio.addEventListener('ended', () => setPlaying(false));
+
+  function spin(on) {
+    if (REDUCED) { gsap.set('.player__reel', { opacity: on ? .5 : 0 }); return; }
+    if (on && !reelTween) {
+      reelTween = gsap.to('.player__reel', {
+        opacity: .62, scale: 1.12, duration: 1.15,
+        repeat: -1, yoyo: true, ease: 'sine.inOut', stagger: .18
+      });
+    } else if (!on && reelTween) {
+      reelTween.kill(); reelTween = null;
+      gsap.to('.player__reel', { opacity: 0, scale: 1, duration: .5 });
+    }
+  }
+
+  function setPlaying(on) {
+    el.classList.toggle('is-playing', on);
+    btn.setAttribute('aria-label', on ? 'Pause track' : 'Play track');
+    spin(on);
+  }
+
+  /* never autoplay — audio only ever starts from this click */
+  btn.addEventListener('click', () => {
+    if (audio.paused) { audio.play().then(() => setPlaying(true)).catch(() => {}); }
+    else { audio.pause(); setPlaying(false); }   // resumes from currentTime
+  });
+
+  /* tactile feedback */
+  if (!REDUCED) {
+    el.addEventListener('pointerenter', () => gsap.to(el, { scale: 1.014, duration: .5 }));
+    el.addEventListener('pointerleave', () => gsap.to(el, { scale: 1, duration: .6 }));
+    btn.addEventListener('pointerdown', () => gsap.to(btn, { scale: .88, duration: .12, ease: 'power2.out' }));
+    ['pointerup', 'pointerleave'].forEach(e =>
+      btn.addEventListener(e, () => gsap.to(btn, { scale: 1, duration: .45, ease: 'back.out(3)' })));
+  }
+
+  track.addEventListener('click', e => {
+    const r = track.getBoundingClientRect();
+    if (audio.duration) { audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration; paint(); }
+  });
+})();
+
+/* ─────────────────────────────────────────────
+   01d · HERO → 02 transition
+   The hero is pinned. The cream cloud edge physically rises and
+   covers the blue. Only once it has, the intro copy is allowed in.
+   ───────────────────────────────────────────── */
+const introItems = $$('.intro [data-reveal]');
+
+function heroTransition() {
+  if (REDUCED) { gsap.set(introItems, { opacity: 1, y: 0 }); return; }
+
+  const hero  = $('#hero');
+  const sheet = $('#heroSheet');
+  const art   = $('.hero__art');
+  const vh    = () => window.innerHeight;
+
+  gsap.set(introItems, { y: CONFIG.reveal.y });
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: hero,
+      start: 'top top',
+      end: () => '+=' + (vh() * CONFIG.hero.pinLength),
+      pin: hero,
+      pinSpacing: true,
+      scrub: 0.9,
+      anticipatePin: 1,
+      invalidateOnRefresh: true
+    }
+  });
+
+  const W = CONFIG.hero.waveEnd;   // the wave finishes covering here
+
+  /* Stages 2–4 — the cream edge physically rises and swallows the blue.
+     The hero is never faded; it is covered.
+     The remaining (1 − W) of the pin is the HOLD: a beat of pure cream
+     before anything else is allowed to happen. */
+  tl.to(sheet, {
+      y: () => -(hero.offsetHeight + 40),
+      duration: W, ease: 'none'
+    }, 0)
+    .to('[data-layer="content"]', { y: CONFIG.hero.contentDrift, duration: W, ease: 'none' }, 0)
+    .to('[data-layer="sky"]',     { y: CONFIG.hero.skyDrift,     duration: W, ease: 'none' }, 0)
+    .to('.hero__sun',             { y: CONFIG.hero.sunDrift,     duration: W, ease: 'none' }, 0)
+    .to({}, { duration: 1 - W }, W);
+
+  tl.totalDuration(1);
+
+  /* Stage 5 — the copy is only allowed in once the cream owns the viewport.
+     It reveals on its own trigger, well after the pin has released. */
+  gsap.to(introItems, {
+    opacity: 1, y: 0, duration: CONFIG.reveal.dur, ease: 'power3.out',
+    stagger: CONFIG.reveal.stagger,
+    scrollTrigger: { trigger: '.intro', start: 'top 80%' }
+  });
+}
+
+/* ─────────────────────────────────────────────
+   02/03/05/06 · editorial heading reveals
+   ───────────────────────────────────────────── */
+function headingReveals() {
+  $$('[data-split-words]').forEach(el => {
+    const inners = splitWordsMasked(el);
+    if (REDUCED) { gsap.set(inners, { opacity: 1 }); return; }
+    /* The CTA heading enters later so it follows the body copy;
+       all other headings use the standard 86% trigger. */
+    const isCta = el.closest('.cta') !== null;
+    gsap.fromTo(inners,
+      { yPercent: 115, opacity: 0 },
+      {
+        yPercent: 0, opacity: 1, duration: 1.05, ease: 'expo.out', stagger: 0.055,
+        scrollTrigger: { trigger: el, start: isCta ? 'top 62%' : 'top 86%' }
+      });
+  });
+}
+
+/* ─────────────────────────────────────────────
+   03 · work grid
+   ───────────────────────────────────────────── */
+function workGrid() {
+  const cells = $$('[data-cell]');
+  if (REDUCED) { gsap.set(cells, { opacity: 1 }); }
+  else {
+    gsap.fromTo(cells,
+      { y: CONFIG.grid.y, scale: CONFIG.grid.scale, opacity: 0 },
+      {
+        y: 0, scale: 1, opacity: 1, duration: CONFIG.grid.dur, ease: 'expo.out',
+        stagger: CONFIG.grid.stagger,
+        scrollTrigger: { trigger: '.work__grid', start: 'top 82%' }
+      });
+  }
+  if (REDUCED || MOBILE) return;
+
+  /* premium image hover — scale stays inside the rounded container */
+  $$('.cell').forEach(cell => {
+    const img = cell.querySelector('img');
+    if (!img) { hoverLift(cell, 4, 1.006); return; }
+    const xTo = gsap.quickTo(img, 'x', { duration: .9, ease: 'power3.out' });
+    const yTo = gsap.quickTo(img, 'y', { duration: .9, ease: 'power3.out' });
+    cell.addEventListener('pointerenter', () => gsap.to(img, { scale: 1.035, duration: 1.1, ease: 'power3.out' }));
+    cell.addEventListener('pointerleave', () => { gsap.to(img, { scale: 1, duration: 1.1, ease: 'power3.out' }); xTo(0); yTo(0); });
+    cell.addEventListener('pointermove', e => {
+      const r = cell.getBoundingClientRect();
+      xTo(((e.clientX - r.left) / r.width - .5) * 12);
+      yTo(((e.clientY - r.top) / r.height - .5) * 12);
+    });
+  });
+}
+function hoverLift(el, y, s) {
+  el.addEventListener('pointerenter', () => gsap.to(el, { y: -y, scale: s, duration: .6 }));
+  el.addEventListener('pointerleave', () => gsap.to(el, { y: 0, scale: 1, duration: .7 }));
+}
+
+/* ─────────────────────────────────────────────
+   04 · other projects — landscape parallax + cards
+   ───────────────────────────────────────────── */
+function funSection() {
+  const cards = $$('[data-fcard]');
+  if (REDUCED) { gsap.set(cards, { opacity: 1 }); }
+  else {
+    gsap.fromTo(cards,
+      { y: CONFIG.cards.y, opacity: 0 },
+      {
+        y: 0, opacity: 1, duration: CONFIG.cards.dur, ease: 'expo.out',
+        stagger: CONFIG.cards.stagger,
+        scrollTrigger: { trigger: '.fun__cards', start: 'top 88%' }
+      });
+
+    /* background slower, foreground faster — depth without noticing it */
+    if (!MOBILE) {
+      /* background slower than the page, foreground faster.
+         Both are zero when the section is centred, so the composition
+         is exact at the moment it is actually being looked at. */
+      gsap.fromTo('#funBg', { y: -CONFIG.parallax.funBg }, {
+        y: CONFIG.parallax.funBg, ease: 'none',
+        scrollTrigger: { trigger: '.fun', start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+      gsap.fromTo('#funFg', { y: CONFIG.parallax.funFg }, {
+        y: -CONFIG.parallax.funFg, ease: 'none',
+        scrollTrigger: { trigger: '.fun', start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+    }
+  }
+
+  if (REDUCED || MOBILE) return;
+  cards.forEach(card => {
+    const img = card.querySelector('.fcard__thumb img');
+    card.addEventListener('pointerenter', () => {
+      gsap.to(card, { y: -7, scale: 1.02, duration: .55, ease: 'power3.out',
+        boxShadow: '0 calc(26 * var(--s)) calc(52 * var(--s)) rgba(46,60,32,.22)' });
+      gsap.to(img, { scale: 1.05, duration: 1.0, ease: 'power3.out' });
+    });
+    card.addEventListener('pointerleave', () => {
+      gsap.to(card, { y: 0, scale: 1, duration: .7, ease: 'power3.out',
+        boxShadow: '0 calc(14 * var(--s)) calc(34 * var(--s)) rgba(46,60,32,.14)' });
+      gsap.to(img, { scale: 1, duration: 1.0, ease: 'power3.out' });
+    });
+  });
+}
+
+/* ─────────────────────────────────────────────
+   05 · sneak peek — continuous horizontal marquee
+   ───────────────────────────────────────────── */
+function peekSection() {
+  const strip = $('#peekStrip');
+  const items = $$('[data-peek]', strip);
+
+  /* Make all items visible */
+  gsap.set(items, { opacity: 1 });
+
+  if (REDUCED) return;
+
+  /* --- duplicate the card set for seamless infinite loop --- */
+  items.forEach(item => {
+    const clone = item.cloneNode(true);
+    clone.removeAttribute('data-peek');   /* avoid re-hiding by CSS base state */
+    clone.style.opacity = '1';           /* ensure clone is visible */
+    /* force-eager load cloned images */
+    const img = clone.querySelector('img');
+    if (img) { img.loading = 'eager'; img.decoding = 'sync'; }
+    strip.appendChild(clone);
+  });
+
+  /* --- continuous marquee via GSAP --- */
+  const totalItems = items.length;  // original count (before duplication)
+  /* We move by exactly 50% (the original set width) then snap back to 0 */
+  const marquee = gsap.to(strip, {
+    xPercent: -50,
+    duration: MOBILE ? CONFIG.marquee.speedMobile : CONFIG.marquee.speed,
+    ease: 'none',
+    repeat: -1
+  });
+
+  /* --- hover: slow/pause on desktop --- */
+  if (!MOBILE) {
+    const peekContainer = $('.peek');
+    let slowTween = null;
+    peekContainer.addEventListener('pointerenter', () => {
+      slowTween = gsap.to(marquee, { timeScale: CONFIG.marquee.hoverScale, duration: 0.8, ease: 'power2.out' });
+    });
+    peekContainer.addEventListener('pointerleave', () => {
+      if (slowTween) slowTween.kill();
+      gsap.to(marquee, { timeScale: 1, duration: 1.2, ease: 'power2.inOut' });
+    });
+
+    /* individual image hover — subtle scale */
+    $$('.peek__item', strip).forEach(it => {
+      const img = it.querySelector('img');
+      it.addEventListener('pointerenter', () => gsap.to(img, { scale: 1.04, duration: 1.0, ease: 'power3.out' }));
+      it.addEventListener('pointerleave', () => gsap.to(img, { scale: 1, duration: 1.0, ease: 'power3.out' }));
+    });
+  }
+}
+
+/* ─────────────────────────────────────────────
+   05b · PEEK → CTA wave transition
+   Echoes the hero→intro wave. The CTA wave sheet rises from
+   below to physically cover the sneak-peek section, then the
+   CTA content reveals sequentially.
+   ───────────────────────────────────────────── */
+function peekCtaTransition() {
+  if (REDUCED) return;
+
+  const pin   = $('#peekCtaPin');
+  const sheet = $('#ctaSheet');
+  const vh    = () => window.innerHeight;
+
+  const W = CONFIG.ctaWave.waveEnd;
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: pin,
+      start: 'top top',
+      end: () => '+=' + (vh() * CONFIG.ctaWave.pinLength),
+      pin: pin,
+      pinSpacing: true,
+      scrub: 0.9,
+      anticipatePin: 1,
+      invalidateOnRefresh: true
+    }
+  });
+
+  /* The sheet starts off-screen below and rises to cover the viewport */
+  tl.to(sheet, {
+    y: () => -(pin.offsetHeight + 80),
+    duration: W, ease: 'none'
+  }, 0)
+  .to({}, { duration: 1 - W }, W);  /* breathing room hold */
+
+  tl.totalDuration(1);
+}
+
+/* ─────────────────────────────────────────────
+   06 · final CTA — landscape rise + per-cluster wind
+   The plants layer is the original artwork, cut along the hill
+   crest, then clipped into clusters. Each cluster pivots on its
+   own base, so nothing is redrawn and the hill line never moves.
+   ───────────────────────────────────────────── */
+const PLANT_SEAMS = [0, 0.20, 0.41, 0.665, 0.855, 1];
+
+function ctaSection() {
+  const holder = $('#ctaPlants');
+
+  PLANT_SEAMS.slice(0, -1).forEach((a, i) => {
+    const b = PLANT_SEAMS[i + 1];
+    /* Overlap each slice by 2% on each inner edge to prevent visible
+       seams when the wind animation rotates adjacent clusters apart. */
+    const overlap = 0.04;
+    const clipL = i === 0 ? 0 : Math.max(0, a - overlap);
+    const clipR = i === PLANT_SEAMS.length - 2 ? 1 : Math.min(1, b + overlap);
+    const slice = document.createElement('div');
+    slice.className = 'slice';
+    slice.style.clipPath = `inset(0 ${(1 - clipR) * 100}% 0 ${clipL * 100}%)`;
+    slice.style.transformOrigin = `${((a + b) / 2) * 100}% 100%`;
+    const img = document.createElement('img');
+    img.src = 'assets/illustrations/cta-plants.webp';
+    img.alt = '';
+    slice.appendChild(img);
+    holder.appendChild(slice);
+  });
+
+  const slices = $$('.slice', holder);
+  const body = $('.cta__body');
+
+  if (REDUCED) { gsap.set(body, { opacity: 1 }); return; }
+
+  gsap.set(body, { y: CONFIG.reveal.y });
+
+  /* Sequential reveal — content enters only AFTER the wave has
+     settled and the CTA section is well inside the viewport.
+     Order: supporting copy → heading → landscape / plants.
+     Each stage is clearly separated so nothing appears at once. */
+  gsap.timeline({ scrollTrigger: { trigger: '.cta', start: 'top 52%' } })
+    .to(body, { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }, 0)
+    .from('#ctaScene', { y: 80, opacity: 0, duration: 1.6, ease: 'expo.out' }, 0.55)
+    .from(slices, { yPercent: 8, opacity: 0, duration: 1.2, ease: 'expo.out' }, 0.75);
+
+  /* per-cluster breeze — each flower/plant cluster sways with its own
+     rotation, duration and delay so the motion reads as natural wind.
+     Alternating direction per cluster; transform-origin is 50% 100%
+     (bottom-center), set in the CSS on .slice. */
+  slices.forEach((s, i) => {
+    const w = CONFIG.wind[i] || CONFIG.wind[CONFIG.wind.length - 1];
+    const dir = i % 2 ? 1 : -1;
+    gsap.to(s, {
+      rotation: dir * w.rot,
+      duration: w.dur,
+      repeat: -1, yoyo: true, ease: 'sine.inOut', delay: w.delay
+    });
+  });
+
+  /* subtle parallax on the hills layer only — does NOT target
+     #ctaScene which already has an entrance .from() tween,
+     so there's no competing-y-property conflict. */
+  if (!MOBILE) {
+    gsap.fromTo('.cta__hills', { y: 34 }, {
+      y: 0, ease: 'none',
+      scrollTrigger: { trigger: '.cta', start: 'top bottom', end: 'bottom bottom', scrub: true }
+    });
+  }
+}
+
+/* ─────────────────────────────────────────────
+   NAV — subtle behaviour only
+   ───────────────────────────────────────────── */
+function navBehaviour() {
+  const pill = $('.nav__pill');
+  ScrollTrigger.create({
+    start: 'top -60',
+    onToggle: self => {
+      gsap.to(pill, {
+        backgroundColor: self.isActive ? 'rgba(255,255,255,.72)' : 'rgba(255,255,255,.34)',
+        duration: .45
+      });
+      gsap.to('.nav__loc', { color: self.isActive ? '#12100D' : '#ffffff', duration: .45 });
+    }
+  });
+}
+
+/* ─────────────────────────────────────────────
+   boot
+   ───────────────────────────────────────────── */
+function init() {
+  bindLetterHover(swapChars);
+  heroIntro();
+  heroAmbient();
+  heroTransition();
+  headingReveals();
+  workGrid();
+  funSection();
+  peekSection();
+  peekCtaTransition();
+  ctaSection();
+  navBehaviour();
+  ScrollTrigger.refresh();
+}
+
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(() => requestAnimationFrame(init));
+} else {
+  window.addEventListener('load', init);
+}
+window.addEventListener('resize', () => ScrollTrigger.refresh());
+</script>
