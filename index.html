@@ -20,7 +20,7 @@
   </div>
   <nav class="nav__pill" aria-label="Primary">
     <span class="nav__avatar" aria-hidden="true"></span>
-    <a class="nav__link nav__link--ring" href="#work">Work</a>
+    <a class="nav__link" href="#work">Work</a>
     <a class="nav__link" href="#about">About</a>
     <a class="nav__cta" href="#resume">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5" fill="currentColor"/><path d="M3.5 6.5 12 13l8.5-6.5" stroke="#fff" stroke-width="1.7" fill="none"/></svg>
@@ -33,6 +33,8 @@
 <section class="hero" id="hero">
   <div class="hero__pin">
     <div class="hero__sky" data-layer="sky">
+      <div class="hero__cloud-effect" aria-hidden="true"></div>
+      <div class="hero__grain" aria-hidden="true"></div>
       <div class="hero__sun" aria-hidden="true"></div>
       <img class="hero__cloud hero__cloud--a" src="assets/illustrations/hero-cloud-a.webp" alt="" aria-hidden="true">
       <img class="hero__cloud hero__cloud--b" src="assets/illustrations/hero-cloud-b.webp" alt="" aria-hidden="true">
@@ -53,10 +55,10 @@
       <div class="player" id="player">
         <img class="player__shell" src="assets/illustrations/cassette-shell.webp" alt="" aria-hidden="true">
         <div class="player__ui">
-          <p class="player__label">My design journey, rapped</p>
+          <p class="player__label">Press play & explore</p>
           <div class="player__track" id="track"><span class="player__fill" id="fill"></span><span class="player__knob" id="knob"></span></div>
           <p class="player__times"><span id="tNow">0:00</span><span id="tEnd">1:23</span></p>
-          <button class="player__btn" id="playBtn" type="button" aria-label="Play track">
+          <button class="player__btn" id="playBtn" type="button" aria-label="Play soundtrack">
             <svg class="ico ico--play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2 19 12 8 18.8Z" fill="currentColor"/></svg>
             <svg class="ico ico--pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="7.4" y="5.4" width="3.4" height="13.2" rx="1.1" fill="currentColor"/><rect x="13.2" y="5.4" width="3.4" height="13.2" rx="1.1" fill="currentColor"/></svg>
           </button>
@@ -98,24 +100,84 @@
   <img class="fun__fg" id="funFg" src="assets/illustrations/projects-fg.jpg" alt="" aria-hidden="true">
   <h2 class="fun__heading" data-split-words>Other projects (the fun kind)</h2>
   <div class="fun__cards">
-    <a class="fcard" href="#" data-fcard>
-      <span class="fcard__badge" aria-hidden="true"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="7" fill="#1769FF"/><text x="24" y="31" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="700" fill="#fff">Bē</text></svg></span>
-      <h3 class="fcard__title">Food Redistribution</h3>
-      <p class="fcard__sub">Connecting Surplus food with those in need</p>
-      <span class="fcard__thumb"><img src="assets/images/card-01.jpg" alt="Food Redistribution"></span>
-    </a>
-    <a class="fcard" href="#" data-fcard>
-      <span class="fcard__badge" aria-hidden="true"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="7" fill="#1769FF"/><text x="24" y="31" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="700" fill="#fff">Bē</text></svg></span>
-      <h3 class="fcard__title">Game Design</h3>
-      <p class="fcard__sub">Unity based mini game on Takeshi&rsquo;s Castle</p>
-      <span class="fcard__thumb"><img src="assets/images/card-02.jpg" alt="Game Design"></span>
-    </a>
-    <a class="fcard" href="#" data-fcard>
-      <span class="fcard__badge" aria-hidden="true"><svg viewBox="0 0 48 48"><rect width="48" height="48" rx="7" fill="#1769FF"/><text x="24" y="31" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="700" fill="#fff">Bē</text></svg></span>
-      <h3 class="fcard__title">Campaign management</h3>
-      <p class="fcard__sub">Simplifies Campaign creation and Management</p>
-      <span class="fcard__thumb"><img src="assets/images/card-03.jpg" alt="Campaign management"></span>
-    </a>
+    <a class="fcard" href="https://www.behance.net/gallery/236112855/Food-Redistribution-App" target="_blank" rel="noopener noreferrer" data-fcard>
+
+  <span class="fcard__badge" aria-hidden="true">
+    <svg viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="7" fill="#1769FF"/>
+      <text x="24" y="31"
+        text-anchor="middle"
+        font-family="Plus Jakarta Sans, sans-serif"
+        font-size="19"
+        font-weight="700"
+        fill="#fff">Bē</text>
+    </svg>
+  </span>
+
+  <h3 class="fcard__title">Food Redistribution</h3>
+
+  <p class="fcard__sub">
+    Connecting Surplus food with those in need
+  </p>
+
+  <span class="fcard__thumb">
+  <img src="assets/images/card-01.jpg" alt="Food Redistribution">
+
+  <img
+    class="fcard__redirect"
+    src="assets/images/redirect-icon.png"
+    alt=""
+    aria-hidden="true"
+  >
+</span>
+
+</a>
+    <a class="fcard" href="https://www.behance.net/gallery/238434135/Takeshis-Castle-The-Door-Challenge" target="_blank" rel="noopener noreferrer" data-fcard>
+  <span class="fcard__badge" aria-hidden="true">
+    <svg viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="7" fill="#1769FF"/>
+      <text x="24" y="31" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="700" fill="#fff">Bē</text>
+    </svg>
+  </span>
+
+  <h3 class="fcard__title">Game Design</h3>
+  <p class="fcard__sub">Unity based mini game on Takeshi&rsquo;s Castle</p>
+
+  <span class="fcard__thumb">
+  <img src="assets/images/card-02.jpg" alt="Game Design">
+
+  <img
+    class="fcard__redirect"
+    src="assets/images/redirect-icon.png"
+    alt=""
+    aria-hidden="true"
+  >
+</span>
+
+</a>
+    <a class="fcard" href="https://www.behance.net/gallery/250809295/Campaign-Management-platform" target="_blank" rel="noopener noreferrer" data-fcard>
+  <span class="fcard__badge" aria-hidden="true">
+    <svg viewBox="0 0 48 48">
+      <rect width="48" height="48" rx="7" fill="#1769FF"/>
+      <text x="24" y="31" text-anchor="middle" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="700" fill="#fff">Bē</text>
+    </svg>
+  </span>
+
+  <h3 class="fcard__title">Campaign management</h3>
+  <p class="fcard__sub">Simplifies Campaign creation and Management</p>
+
+  <span class="fcard__thumb">
+  <img src="assets/images/card-03.jpg" alt="Campaign management">
+
+  <img
+    class="fcard__redirect"
+    src="assets/images/redirect-icon.png"
+    alt=""
+    aria-hidden="true"
+  >
+</span>
+
+</a>
   </div>
 </section>
 
@@ -143,17 +205,26 @@
 <section class="cta" id="resume">
   <img class="cta__wave" src="assets/illustrations/cta-wave.jpg" alt="" aria-hidden="true">
   <p class="cta__body" data-reveal>From early concepts to refined experiences, I help ambitious teams build products that earn trust, move quickly and drive growth.</p>
-  <h2 class="cta__title" data-split-words>Let&rsquo;s grow your next idea</h2>
+  <a
+  class="cta__title"
+  href="mailto:anushree.jain015@gmail.com"
+>
+  Let&rsquo;s grow your next idea
+</a>
 
   <div class="cta__scene" id="ctaScene">
     <img class="cta__hills" src="assets/illustrations/cta-hills.webp" alt="" aria-hidden="true">
-    <div class="cta__plants" id="ctaPlants" aria-hidden="true"><!-- wind slices injected by JS --></div>
+    <div class="cta__plants" id="ctaPlants" aria-hidden="true"><!-- plant artwork --></div>
   </div>
 
   <footer class="foot">
-    <span>Designed by Anushree Jain &middot; 2026</span>
-    <span class="foot__links"><a href="#">LinkedIn</a><a href="#">Behance</a></span>
-  </footer>
+  <span>Designed by Anushree Jain &middot; 2026</span>
+
+  <span class="foot__links">
+    <a href="https://www.linkedin.com/in/anushree-jain-716768245?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    <a href="https://www.behance.net/anushreejain16" target="_blank" rel="noopener noreferrer">Behance</a>
+  </span>
+</footer>
 </section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>

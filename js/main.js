@@ -11,7 +11,7 @@ const CONFIG = {
   hero: {
     /* how much scroll the hero→intro wave transition consumes,
        as a multiple of viewport height */
-    pinLength: 1.15,
+    pinLength: 0.75,
     /* fraction of the pin during which the wave rises (0 → this) */
     waveEnd: 0.80,
     /* fraction of the pin at which the intro copy is allowed in.
@@ -31,7 +31,7 @@ const CONFIG = {
   grid:   { y: 46, scale: 0.972, dur: 1.05, stagger: 0.125 },
   cards:  { y: 52, dur: 1.0, stagger: 0.11 },
   peek:   { y: 46, dur: 0.95, stagger: 0.11, drift: 90 },
-  ctaWave: { pinLength: 0.6, waveEnd: 0.85 },
+  ctaWave: { pinLength: 0.6, waveEnd: 1 },
   parallax: { funBg: 16, funFg: 30 },
   /* per-cluster breeze — each flower cluster sways independently
      with its own rotation range, duration and delay, so the motion
@@ -81,7 +81,7 @@ function splitWordsMasked(el) {
   const inners = [];
   words.forEach((w, i) => {
     const mask = document.createElement('span');
-    mask.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:top';
+    mask.style.cssText = 'display:inline-block;overflow:visible;vertical-align:top';
     const inner = document.createElement('span');
     inner.className = 'sw';
     inner.textContent = w;
@@ -151,7 +151,6 @@ function bindLetterHover(chars) {
     });
   });
 }
-bindLetterHover(line1Chars);
 
 /* ─────────────────────────────────────────────
    01c · Cassette audio player
@@ -268,13 +267,28 @@ function heroTransition() {
 
   /* Stage 5 — the copy is only allowed in once the cream owns the viewport.
      It reveals on its own trigger, well after the pin has released. */
-  gsap.to(introItems, {
-    opacity: 1, y: 0, duration: CONFIG.reveal.dur, ease: 'power3.out',
-    stagger: CONFIG.reveal.stagger,
-    scrollTrigger: { trigger: '.intro', start: 'top 80%' }
-  });
+  gsap.fromTo(
+  introItems,
+  {
+    y: 34,
+    opacity: 0,
+    filter: 'blur(6px)'
+  },
+  {
+    y: 0,
+    opacity: 1,
+    filter: 'blur(0px)',
+    duration: 1.15,
+    ease: 'power3.out',
+    stagger: 0.22,
+    scrollTrigger: {
+      trigger: '.intro',
+      start: 'top 78%',
+      toggleActions: 'play none none reverse'
+    }
+  }
+);
 }
-
 /* ─────────────────────────────────────────────
    02/03/05/06 · editorial heading reveals
    ───────────────────────────────────────────── */
@@ -441,11 +455,9 @@ function peekSection() {
 function peekCtaTransition() {
   if (REDUCED) return;
 
-  const pin   = $('#peekCtaPin');
+  const pin = $('#peekCtaPin');
   const sheet = $('#ctaSheet');
-  const vh    = () => window.innerHeight;
-
-  const W = CONFIG.ctaWave.waveEnd;
+  const vh = () => window.innerHeight;
 
   const tl = gsap.timeline({
     scrollTrigger: {
@@ -453,19 +465,18 @@ function peekCtaTransition() {
       start: 'top top',
       end: () => '+=' + (vh() * CONFIG.ctaWave.pinLength),
       pin: pin,
-      pinSpacing: true,
+      pinSpacing: false,
       scrub: 0.9,
       anticipatePin: 1,
       invalidateOnRefresh: true
     }
   });
 
-  /* The sheet starts off-screen below and rises to cover the viewport */
   tl.to(sheet, {
-    y: () => -(pin.offsetHeight + 80),
-    duration: W, ease: 'none'
-  }, 0)
-  .to({}, { duration: 1 - W }, W);  /* breathing room hold */
+    y: () => -(pin.offsetHeight),
+    duration: 1,
+    ease: 'none'
+  });
 
   tl.totalDuration(1);
 }
@@ -480,62 +491,68 @@ const PLANT_SEAMS = [0, 0.20, 0.41, 0.665, 0.855, 1];
 
 function ctaSection() {
   const holder = $('#ctaPlants');
-
-  PLANT_SEAMS.slice(0, -1).forEach((a, i) => {
-    const b = PLANT_SEAMS[i + 1];
-    /* Overlap each slice by 2% on each inner edge to prevent visible
-       seams when the wind animation rotates adjacent clusters apart. */
-    const overlap = 0.04;
-    const clipL = i === 0 ? 0 : Math.max(0, a - overlap);
-    const clipR = i === PLANT_SEAMS.length - 2 ? 1 : Math.min(1, b + overlap);
-    const slice = document.createElement('div');
-    slice.className = 'slice';
-    slice.style.clipPath = `inset(0 ${(1 - clipR) * 100}% 0 ${clipL * 100}%)`;
-    slice.style.transformOrigin = `${((a + b) / 2) * 100}% 100%`;
-    const img = document.createElement('img');
-    img.src = 'assets/illustrations/cta-plants.webp';
-    img.alt = '';
-    slice.appendChild(img);
-    holder.appendChild(slice);
-  });
-
-  const slices = $$('.slice', holder);
   const body = $('.cta__body');
 
-  if (REDUCED) { gsap.set(body, { opacity: 1 }); return; }
+  if (!holder) return;
+
+  /* Use the original plant artwork as one continuous layer.
+     Keeping it as one image prevents visible seams/cracks. */
+  holder.innerHTML = '';
+
+  const img = document.createElement('img');
+  img.src = 'assets/illustrations/cta-plants.webp';
+  img.alt = '';
+  holder.appendChild(img);
+
+  if (REDUCED) {
+    gsap.set(body, { opacity: 1 });
+    return;
+  }
 
   gsap.set(body, { y: CONFIG.reveal.y });
 
-  /* Sequential reveal — content enters only AFTER the wave has
-     settled and the CTA section is well inside the viewport.
-     Order: supporting copy → heading → landscape / plants.
-     Each stage is clearly separated so nothing appears at once. */
-  gsap.timeline({ scrollTrigger: { trigger: '.cta', start: 'top 52%' } })
-    .to(body, { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }, 0)
-    .from('#ctaScene', { y: 80, opacity: 0, duration: 1.6, ease: 'expo.out' }, 0.55)
-    .from(slices, { yPercent: 8, opacity: 0, duration: 1.2, ease: 'expo.out' }, 0.75);
+  /* CTA content reveal */
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: '.cta',
+      start: 'top 52%'
+    }
+  })
+    .to(body, {
+      opacity: 1,
+      y: 0,
+      duration: 1.0,
+      ease: 'power3.out'
+    }, 0)
+    .from('#ctaScene', {
+      y: 80,
+      opacity: 0,
+      duration: 1.6,
+      ease: 'expo.out'
+    }, 0.55);
 
-  /* per-cluster breeze — each flower/plant cluster sways with its own
-     rotation, duration and delay so the motion reads as natural wind.
-     Alternating direction per cluster; transform-origin is 50% 100%
-     (bottom-center), set in the CSS on .slice. */
-  slices.forEach((s, i) => {
-    const w = CONFIG.wind[i] || CONFIG.wind[CONFIG.wind.length - 1];
-    const dir = i % 2 ? 1 : -1;
-    gsap.to(s, {
-      rotation: dir * w.rot,
-      duration: w.dur,
-      repeat: -1, yoyo: true, ease: 'sine.inOut', delay: w.delay
-    });
+  /* Gentle natural breeze across the complete flower artwork.
+     One continuous image = no seams. */
+  gsap.to(img, {
+    rotation: -1.2,
+    duration: 3.4,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut',
+    transformOrigin: '50% 100%'
   });
 
-  /* subtle parallax on the hills layer only — does NOT target
-     #ctaScene which already has an entrance .from() tween,
-     so there's no competing-y-property conflict. */
+  /* Subtle parallax on the hills */
   if (!MOBILE) {
     gsap.fromTo('.cta__hills', { y: 34 }, {
-      y: 0, ease: 'none',
-      scrollTrigger: { trigger: '.cta', start: 'top bottom', end: 'bottom bottom', scrub: true }
+      y: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.cta',
+        start: 'top bottom',
+        end: 'bottom bottom',
+        scrub: true
+      }
     });
   }
 }
@@ -561,7 +578,9 @@ function navBehaviour() {
    boot
    ───────────────────────────────────────────── */
 function init() {
+  bindLetterHover(line1Chars);
   bindLetterHover(swapChars);
+
   heroIntro();
   heroAmbient();
   heroTransition();
@@ -572,6 +591,7 @@ function init() {
   peekCtaTransition();
   ctaSection();
   navBehaviour();
+
   ScrollTrigger.refresh();
 }
 

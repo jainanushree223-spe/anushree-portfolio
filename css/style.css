@@ -66,10 +66,13 @@ h1,h2,h3,p{margin:0}
   will-change:transform;
 }
 .nav__avatar{
-  width:calc(34 * var(--s));height:calc(34 * var(--s));border-radius:50%;
-  background:#C7A98E url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><circle cx='20' cy='15' r='7' fill='%23412E20'/><path d='M4 40c2-10 8-14 16-14s14 4 16 14z' fill='%23F0E3D4'/></svg>") center/cover;
+  width:calc(34 * var(--s));
+  height:calc(34 * var(--s));
+  border-radius:50%;
+  background:#C7A98E url("../assets/images/avatar.jpeg") center/cover no-repeat;
   flex:0 0 auto;
 }
+
 .nav__link{padding:calc(4 * var(--s)) calc(2 * var(--s));white-space:nowrap}
 .nav__link--ring{border:1px solid var(--ink);border-radius:999px;padding:calc(5 * var(--s)) calc(17 * var(--s))}
 .nav__cta{
@@ -91,6 +94,26 @@ h1,h2,h3,p{margin:0}
     #5FA6DE;
   will-change:transform;
 }
+.hero__cloud-effect{
+  position:absolute;
+  inset:0;
+  z-index:0;
+
+  background:url("../assets/illustrations/cloud-effect.png") center/cover no-repeat;
+
+  pointer-events:none;
+  opacity:1.0;
+}
+.hero__grain{
+  position:absolute;
+  inset:0;
+  z-index:1;
+
+  background:url("../assets/illustrations/grain.png") center/cover repeat;
+
+  pointer-events:none;
+  opacity:.70;
+}
 .hero__sun{
   position:absolute;
   left:calc(1147 * var(--s));
@@ -106,7 +129,7 @@ h1,h2,h3,p{margin:0}
   );
 
   will-change:transform;
-  z-index:2;
+  z-index:10;
 }
 
 .hero__sun::before{
@@ -121,7 +144,7 @@ h1,h2,h3,p{margin:0}
   background:url("assets/illustrations/sun-gradient.webp")
     center/contain no-repeat;
 
-  z-index:-1;
+  z-index: 2;
   pointer-events:none;
 }
 
@@ -182,7 +205,7 @@ h1,h2,h3,p{margin:0}
 }
 .player__times{display:flex;justify-content:space-between;font-family:"JetBrains Mono",monospace;font-size:calc(10.2 * var(--s));color:#3B362C}
 .player__btn{
-  position:absolute;left:50%;top:calc(66 * var(--s));transform:translateX(-50%);
+  position:absolute;left:50%;top:calc(50 * var(--s));transform:translateX(-50%);
   width:calc(30 * var(--s));height:calc(30 * var(--s));border-radius:50%;border:0;
   background:#4A4034;color:#EFE9DC;display:grid;place-items:center;cursor:pointer;padding:0;
   will-change:transform;
@@ -215,12 +238,16 @@ h1,h2,h3,p{margin:0}
 
 /* ───────────── 02 · INTRODUCTION ───────────── */
 .intro{
+  position:relative;
+  z-index:6;
   background:var(--cream);
-  padding:calc(162 * var(--s)) 0 0;
+  padding:0;
+  margin-top:calc(-450 * var(--s));
   text-align:center;
 }
 .intro__body,.intro__lead{
-  width:calc(940 * var(--s));margin:0 auto;
+  width:calc(940 * var(--s));
+  margin:calc(-20 * var(--s)) auto 0;
   font-size:calc(28.5 * var(--s));line-height:calc(41 * var(--s));letter-spacing:-.008em;
 }
 .intro__lead{margin-top:calc(42 * var(--s));font-weight:700;width:calc(830 * var(--s));
@@ -260,7 +287,7 @@ h1,h2,h3,p{margin:0}
 .fun__heading{
   position:absolute;left:0;right:0;top:calc(180 * var(--s));
   font-family:var(--display);font-weight:700;
-  font-size:calc(36.5 * var(--s));text-align:center;letter-spacing:-.049em;
+  font-size:calc(36.5 * var(--s));text-align:center;letter-spacing:-.02em;
 }
 .fun__cards{
   position:absolute;left:0;right:0;margin:0 auto;top:calc(314 * var(--s));
@@ -279,15 +306,63 @@ h1,h2,h3,p{margin:0}
 .fcard__badge svg{width:100%;height:100%}
 .fcard__title{margin-top:calc(22 * var(--s));font-size:calc(25 * var(--s));font-weight:700;letter-spacing:-.018em}
 .fcard__sub{margin-top:calc(7 * var(--s));font-size:calc(14 * var(--s));line-height:1.35}
-.fcard__thumb{display:block;margin-top:calc(19 * var(--s));border-radius:calc(12 * var(--s));overflow:hidden}
-.fcard__thumb img{width:100%;height:auto;will-change:transform}
+.fcard__thumb{
+  position:relative;
+  display:block;
+  margin-top:calc(19 * var(--s));
+  border-radius:calc(12 * var(--s));
+  overflow:hidden;
+}
+.fcard__thumb > img:not(.fcard__redirect){
+  width:100%;
+  height:auto;
+  will-change:transform;
+}
+/* ───────────── redirect icon ───────────── */
 
+.fcard__redirect{
+  position:absolute;
+  top:calc(14 * var(--s));
+  right:calc(14 * var(--s));
+
+  width:calc(50 * var(--s));
+  height:calc(50 * var(--s));
+
+  z-index:5;
+
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(8px) scale(.92);
+
+  pointer-events:none;
+  will-change:transform, opacity;
+
+  transition:
+    opacity .25s var(--ease),
+    transform .35s var(--ease),
+    visibility 0s linear .35s;
+}
+
+.fcard:hover .fcard__redirect{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0) scale(1);
+
+  transition:
+    opacity .25s var(--ease),
+    transform .35s var(--ease),
+    visibility 0s;
+}
 /* ───────────── 05 · SNEAK PEEK ───────────── */
 .peek{position:relative;overflow:hidden;background:var(--cream-2);padding:calc(68 * var(--s)) 0 calc(76 * var(--s))}
 .peek__heading{
   font-family:var(--display);font-weight:700;
-  font-size:calc(36.5 * var(--s));text-align:center;letter-spacing:-.049em;
+  font-size:calc(36.5 * var(--s));text-align:center;letter-spacing:-.01em;
   margin-bottom:calc(92 * var(--s));
+  width: calc(100% - 20 * var(--s));
+  margin-left: auto;
+  margin-right: auto;
+  overflow: visible;
 }
 .peek__strip{display:flex;gap:calc(28 * var(--s));width:max-content;will-change:transform}
 .peek__item{margin:0;width:calc(493 * var(--s));height:calc(611 * var(--s));overflow:hidden;background:var(--cream-2);flex:0 0 auto}
@@ -295,14 +370,26 @@ h1,h2,h3,p{margin:0}
 
 /* ───────────── 05b · PEEK→CTA WAVE TRANSITION ───────────── */
 .peek-cta-pin{
-  position:relative;height:40vh;overflow:hidden;
-  background:var(--cream-2);      /* matches sneak-peek section */
-}
+  position:relative;
+  height:40vh;
+  overflow:hidden;
+  background:var(--sand);
+}    /* matches sneak-peek section */
 .cta-sheet{
-  position:absolute;left:0;bottom:calc(-120 * var(--s));width:100%;
-  z-index:5;pointer-events:none;will-change:transform;
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  z-index:5;
+  pointer-events:none;
+  will-change:transform;
 }
-.cta-sheet__art{width:100%;height:auto;display:block}
+
+.cta-sheet__art{
+  display:block;
+  width:100%;
+  height:auto;
+}
 .cta-sheet__fill{
   position:absolute;left:0;top:60%;width:100%;height:200vh;
   background:var(--sand-2);       /* matches CTA section background */
@@ -312,7 +399,7 @@ h1,h2,h3,p{margin:0}
 .cta{
   position:relative;background:var(--sand-2);
   height:calc(863 * var(--s));min-height:calc(680 * var(--s));overflow:hidden;
-  margin-top:-2px;  /* seal subpixel gap left by pinSpacing */
+  margin-top:0px;  /* seal subpixel gap left by pinSpacing */
 }
 /* The animated peek→CTA wave transition IS the top boundary of the
    footer — the static .cta__wave image is hidden so it doesn't
@@ -325,17 +412,55 @@ h1,h2,h3,p{margin:0}
 }
 .cta__title{
   position:absolute;left:0;right:0;margin:0 auto;top:calc(299 * var(--s));
-  width:calc(1360 * var(--s));text-align:center;white-space:nowrap;
+  text-align:center;white-space:nowrap;
   font-family:var(--display);font-weight:700;
   font-size:calc(115 * var(--s));line-height:1.05;letter-spacing:-.024em;
+
+  text-decoration:none;
+  cursor:pointer;
+}
+.cta__title{
+  text-decoration:none;
+  cursor:pointer;
+  display:inline-block;
+}
+
+.cta__title:hover{
+  text-decoration:underline;
+  text-decoration-thickness:calc(3.5 * var(--s));
+  text-underline-offset:calc(3 * var(--s));
 }
 .cta__scene{position:absolute;left:0;bottom:0;width:100%;height:calc(880 * var(--s));pointer-events:none}
-.cta__hills,.cta__plants{position:absolute;left:0;bottom:0;width:100%;height:calc(880 * var(--s))}
-.cta__plants{overflow:hidden}
-.cta__plants .slice{position:absolute;left:0;bottom:0;width:100%;height:100%;
-  transform-origin:50% 100%;will-change:transform}
-.cta__plants .slice img{position:absolute;left:0;bottom:0;width:100%;height:100%}
+.cta__hills{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:auto;
+  display:block;
+  transform-origin:50% 100%;
+  will-change:transform;
+}
 
+.cta__plants{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:calc(880 * var(--s));
+  overflow:hidden;
+}
+
+.cta__plants img{
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:auto;
+  display:block;
+  transform-origin:50% 100%;
+  will-change:transform;
+}
 
 .foot{
   position:absolute;left:0;right:0;bottom:calc(20 * var(--s));
@@ -350,6 +475,11 @@ h1,h2,h3,p{margin:0}
 .js [data-cell],
 .js [data-fcard],
 .js [data-peek]{opacity:0}
+.js .intro [data-reveal]{
+  opacity:0;
+  filter:blur(6px);
+  will-change:transform, opacity, filter;
+}
 .js .sw{opacity:0;display:inline-block}
 .js [data-split-words]{visibility:hidden}
 
