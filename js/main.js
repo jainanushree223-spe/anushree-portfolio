@@ -55,6 +55,80 @@ gsap.defaults({ ease: 'power3.out' });
 
 const $  = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+/* ─────────────────────────────────────────────
+   CUSTOM CURSOR — SAME AS ABOUT PAGE
+   ───────────────────────────────────────────── */
+
+function customCursor(){
+
+  if(!window.matchMedia('(pointer:fine)').matches) return;
+
+  const c = document.querySelector('.cursor');
+
+  if(!c) return;
+
+  document.documentElement.classList.add('has-cursor');
+
+  let x = window.innerWidth / 2;
+  let y = window.innerHeight / 2;
+
+  let cx = x;
+  let cy = y;
+
+  window.addEventListener('mousemove', e => {
+    x = e.clientX;
+    y = e.clientY;
+    c.style.opacity = 1;
+  });
+
+  document.addEventListener('mouseleave', () => {
+    c.style.opacity = 0;
+  });
+
+  function loop(){
+
+    cx += (x - cx) * .2;
+    cy += (y - cy) * .2;
+
+    c.style.transform =
+      `translate3d(${cx}px, ${cy}px, 0)`;
+
+    requestAnimationFrame(loop);
+  }
+
+  loop();
+
+  document
+    .querySelectorAll('a, button, .cell, .fcard, .peek__item, .player')
+    .forEach(el => {
+
+      el.addEventListener('mouseenter', () => {
+        c.classList.add('big');
+      });
+
+      el.addEventListener('mouseleave', () => {
+        c.classList.remove('big');
+      });
+
+    });
+}
+/* ========================================================
+   ABOUT FOOTER PLANTS
+======================================================== */
+
+const FOOTER_PLANTS = [
+  {f:"plant-00.png",x:3.174,y:66.151,w:10.042,h:23.907},
+  {f:"plant-01.png",x:27.035,y:74.494,w:4,h:14.366},
+  {f:"plant-03.png",x:31.592,y:72,w:5,h:16},
+  {f:"plant-05.png",x:36.1,y:73.348,w:4,h:13.486},
+  {f:"plant-06.png",x:44.401,y:55.277,w:22.217,h:30.251},
+  {f:"plant-08.png",x:70.459,y:69.057,w:3,h:13.593},
+  {f:"plant-09.png",x:75.049,y:70.123,w:4,h:14.739},
+  {f:"plant-10.png",x:77.979,y:72.281,w:4,h:14.046},
+  {f:"plant-11.png",x:80.892,y:81,w:6,h:6},
+  {f:"plant-12.png",x:82.601,y:68.843,w:2.62,h:16.711},
+  {f:"plant-13.png",x:86.019,y:64.526,w:7,h:19.51}
+];
 
 /* ─────────────────────────────────────────────
    Text splitting helpers
@@ -293,19 +367,50 @@ function heroTransition() {
    02/03/05/06 · editorial heading reveals
    ───────────────────────────────────────────── */
 function headingReveals() {
+
   $$('[data-split-words]').forEach(el => {
+
     const inners = splitWordsMasked(el);
-    if (REDUCED) { gsap.set(inners, { opacity: 1 }); return; }
-    /* The CTA heading enters later so it follows the body copy;
-       all other headings use the standard 86% trigger. */
-    const isCta = el.closest('.cta') !== null;
-    gsap.fromTo(inners,
-      { yPercent: 115, opacity: 0 },
-      {
-        yPercent: 0, opacity: 1, duration: 1.05, ease: 'expo.out', stagger: 0.055,
-        scrollTrigger: { trigger: el, start: isCta ? 'top 62%' : 'top 86%' }
+
+    if (REDUCED) {
+      gsap.set(inners, {
+        yPercent:0,
+        opacity:1
       });
+      return;
+    }
+
+    gsap.fromTo(
+      inners,
+      {
+        yPercent:115,
+        opacity:0
+      },
+      {
+        yPercent:0,
+        opacity:1,
+        duration:1.05,
+        ease:'expo.out',
+        stagger:0.055,
+
+        scrollTrigger:{
+          trigger:el,
+          start:'top 86%',
+
+          once:true
+        },
+
+        onComplete:()=>{
+          gsap.set(inners,{
+            clearProps:'transform',
+            opacity:1
+          });
+        }
+      }
+    );
+
   });
+
 }
 
 /* ─────────────────────────────────────────────
@@ -326,19 +431,67 @@ function workGrid() {
   if (REDUCED || MOBILE) return;
 
   /* premium image hover — scale stays inside the rounded container */
-  $$('.cell').forEach(cell => {
-    const img = cell.querySelector('img');
-    if (!img) { hoverLift(cell, 4, 1.006); return; }
-    const xTo = gsap.quickTo(img, 'x', { duration: .9, ease: 'power3.out' });
-    const yTo = gsap.quickTo(img, 'y', { duration: .9, ease: 'power3.out' });
-    cell.addEventListener('pointerenter', () => gsap.to(img, { scale: 1.035, duration: 1.1, ease: 'power3.out' }));
-    cell.addEventListener('pointerleave', () => { gsap.to(img, { scale: 1, duration: 1.1, ease: 'power3.out' }); xTo(0); yTo(0); });
-    cell.addEventListener('pointermove', e => {
-      const r = cell.getBoundingClientRect();
-      xTo(((e.clientX - r.left) / r.width - .5) * 12);
-      yTo(((e.clientY - r.top) / r.height - .5) * 12);
-    });
+ $$('.cell').forEach(cell => {
+
+  const img = cell.querySelector('img');
+
+  if (!img) {
+    hoverLift(cell, 4, 1.006);
+    return;
+  }
+
+  /* Work cards now use CSS hover reveal.
+     Don't let GSAP animate their image transform. */
+  if (cell.classList.contains('work-card')) {
+    return;
+  }
+
+  const xTo = gsap.quickTo(img, 'x', {
+    duration: .9,
+    ease: 'power3.out'
   });
+
+  const yTo = gsap.quickTo(img, 'y', {
+    duration: .9,
+    ease: 'power3.out'
+  });
+
+  cell.addEventListener('pointerenter', () =>
+    gsap.to(img, {
+      scale: 1.035,
+      duration: 1.1,
+      ease: 'power3.out'
+    })
+  );
+
+  cell.addEventListener('pointerleave', () => {
+
+    gsap.to(img, {
+      scale: 1,
+      duration: 1.1,
+      ease: 'power3.out'
+    });
+
+    xTo(0);
+    yTo(0);
+
+  });
+
+  cell.addEventListener('pointermove', e => {
+
+    const r = cell.getBoundingClientRect();
+
+    xTo(
+      ((e.clientX - r.left) / r.width - .5) * 12
+    );
+
+    yTo(
+      ((e.clientY - r.top) / r.height - .5) * 12
+    );
+
+  });
+
+});
 }
 function hoverLift(el, y, s) {
   el.addEventListener('pointerenter', () => gsap.to(el, { y: -y, scale: s, duration: .6 }));
@@ -445,118 +598,286 @@ function peekSection() {
     });
   }
 }
+/* ========================================================
+   ABOUT FOOTER
+======================================================== */
 
-/* ─────────────────────────────────────────────
-   05b · PEEK → CTA wave transition
-   Echoes the hero→intro wave. The CTA wave sheet rises from
-   below to physically cover the sneak-peek section, then the
-   CTA content reveals sequentially.
-   ───────────────────────────────────────────── */
-function peekCtaTransition() {
-  if (REDUCED) return;
+function aboutFooter(){
 
-  const pin = $('#peekCtaPin');
-  const sheet = $('#ctaSheet');
-  const vh = () => window.innerHeight;
+  const garden = document.querySelector('.about-footer__garden');
 
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: pin,
-      start: 'top top',
-      end: () => '+=' + (vh() * CONFIG.ctaWave.pinLength),
-      pin: pin,
-      pinSpacing: false,
-      scrub: 0.9,
-      anticipatePin: 1,
-      invalidateOnRefresh: true
-    }
-  });
+  if(!garden) return;
 
-  tl.to(sheet, {
-    y: () => -(pin.offsetHeight),
-    duration: 1,
-    ease: 'none'
-  });
 
-  tl.totalDuration(1);
-}
+  /* ---------------------------------------
+     Create flowers
+  --------------------------------------- */
 
-/* ─────────────────────────────────────────────
-   06 · final CTA — landscape rise + per-cluster wind
-   The plants layer is the original artwork, cut along the hill
-   crest, then clipped into clusters. Each cluster pivots on its
-   own base, so nothing is redrawn and the hill line never moves.
-   ───────────────────────────────────────────── */
-const PLANT_SEAMS = [0, 0.20, 0.41, 0.665, 0.855, 1];
+  const plantEls = FOOTER_PLANTS.map(p => {
 
-function ctaSection() {
-  const holder = $('#ctaPlants');
-  const body = $('.cta__body');
+    const plant = document.createElement('div');
 
-  if (!holder) return;
+    plant.className = 'about-footer__plant';
 
-  /* Use the original plant artwork as one continuous layer.
-     Keeping it as one image prevents visible seams/cracks. */
-  holder.innerHTML = '';
-
-  const img = document.createElement('img');
-  img.src = 'assets/illustrations/cta-plants.webp';
-  img.alt = '';
-  holder.appendChild(img);
-
-  if (REDUCED) {
-    gsap.set(body, { opacity: 1 });
-    return;
-  }
-
-  gsap.set(body, { y: CONFIG.reveal.y });
-
-  /* CTA content reveal */
-  gsap.timeline({
-    scrollTrigger: {
-      trigger: '.cta',
-      start: 'top 52%'
-    }
-  })
-    .to(body, {
-      opacity: 1,
-      y: 0,
-      duration: 1.0,
-      ease: 'power3.out'
-    }, 0)
-    .from('#ctaScene', {
-      y: 80,
-      opacity: 0,
-      duration: 1.6,
-      ease: 'expo.out'
-    }, 0.55);
-
-  /* Gentle natural breeze across the complete flower artwork.
-     One continuous image = no seams. */
-  gsap.to(img, {
-    rotation: -1.2,
-    duration: 3.4,
-    repeat: -1,
-    yoyo: true,
-    ease: 'sine.inOut',
-    transformOrigin: '50% 100%'
-  });
-
-  /* Subtle parallax on the hills */
-  if (!MOBILE) {
-    gsap.fromTo('.cta__hills', { y: 34 }, {
-      y: 0,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.cta',
-        start: 'top bottom',
-        end: 'bottom bottom',
-        scrub: true
-      }
+    Object.assign(plant.style,{
+      left:p.x + '%',
+      top:p.y + '%',
+      width:p.w + '%',
+      height:p.h + '%'
     });
-  }
-}
 
+    plant.innerHTML =
+  `<img src="assets/illustrations/${p.f}" alt="">`;
+
+    garden.appendChild(plant);
+
+    return plant;
+
+  });
+
+
+  /* Reduced motion */
+
+  if(REDUCED) return;
+
+
+  /* ---------------------------------------
+     CTA title
+  --------------------------------------- */
+
+  gsap.fromTo(
+    '.about-footer__heading a',
+
+    {
+      scale:.22
+    },
+
+    {
+      scale:1,
+
+      ease:'power2.out',
+
+      scrollTrigger:{
+        trigger:'.about-footer',
+
+        start:'top 85%',
+        end:'bottom bottom',
+
+        scrub:.6
+      }
+    }
+  );
+
+
+  /* ---------------------------------------
+     Description
+  --------------------------------------- */
+
+  gsap.from(
+    '.about-footer__copy',
+    {
+      y:40,
+
+      opacity:0,
+
+      ease:'power2.out',
+
+      scrollTrigger:{
+        trigger:'.about-footer',
+
+        start:'top 80%',
+        end:'top 20%',
+
+        scrub:.6
+      }
+    }
+  );
+
+
+  /* ---------------------------------------
+     Garden ground
+  --------------------------------------- */
+
+  gsap.from(
+    '.about-footer__ground',
+    {
+      yPercent:22,
+
+      ease:'power2.out',
+
+      scrollTrigger:{
+        trigger:'.about-footer',
+
+        start:'top bottom',
+        end:'bottom bottom',
+
+        scrub:.6
+      }
+    }
+  );
+
+
+  /* ---------------------------------------
+     Flowers grow + sway
+  --------------------------------------- */
+
+  plantEls.forEach((el,i) => {
+
+    const img = el.querySelector('img');
+
+
+    gsap.fromTo(
+      el,
+
+      {
+        scaleY:0,
+        scaleX:.6,
+        yPercent:22
+      },
+
+      {
+        scaleY:1,
+        scaleX:1,
+        yPercent:0,
+
+        ease:'back.out(1.6)',
+
+        scrollTrigger:{
+          trigger:'.about-footer',
+
+          start:() =>
+            `top+=${120 + (i % 7) * 28} bottom`,
+
+          end:'bottom bottom',
+
+          scrub:.8
+        }
+      }
+    );
+
+
+    gsap.to(
+      img,
+      {
+        rotation:
+          (i % 2 ? 1 : -1) *
+          (1.2 + Math.random() * 1.4),
+
+        duration:
+          2.4 + Math.random() * 1.6,
+
+        ease:'sine.inOut',
+
+        yoyo:true,
+
+        repeat:-1,
+
+        delay:
+          Math.random() * 2
+      }
+    );
+
+  });
+
+}
+/* ─────────────────────────────────────────────
+   CUSTOM CURSOR — SAME AS ABOUT PAGE
+   ───────────────────────────────────────────── */
+
+function customCursor(){
+
+  if(!matchMedia('(pointer:fine)').matches) return;
+
+  const c = document.querySelector('.cursor');
+
+  if(!c) return;
+
+  document.documentElement.classList.add('has-cursor');
+
+  let x = innerWidth / 2;
+  let y = innerHeight / 2;
+
+  let cx = x;
+  let cy = y;
+
+  addEventListener('mousemove', e => {
+
+    x = e.clientX;
+    y = e.clientY;
+
+    c.style.opacity = 1;
+
+  });
+
+  document.addEventListener('mouseleave', () => {
+    c.style.opacity = 0;
+  });
+
+  function loop(){
+
+    cx += (x - cx) * .2;
+    cy += (y - cy) * .2;
+
+    c.style.transform =
+      `translate3d(${cx}px,${cy}px,0)`;
+
+    requestAnimationFrame(loop);
+
+  }
+
+  loop();
+
+  document.querySelectorAll(
+    'a, button, .cell, .fcard, .peek__item, .player'
+  ).forEach(el => {
+
+    el.addEventListener('mouseenter', () => {
+      c.classList.add('big');
+    });
+
+    el.addEventListener('mouseleave', () => {
+      c.classList.remove('big');
+    });
+
+  });
+
+}
+/* ─────────────────────────────────────────────
+   MOBILE DESKTOP NOTICE
+   ────────────────────────────────────────────── */
+
+function desktopNotice(){
+
+  const notice =
+    document.getElementById('desktopNotice');
+
+  const button =
+    document.getElementById('desktopNoticeContinue');
+
+  if(!notice || !button) return;
+
+  button.addEventListener('click', () => {
+
+    /* hide notice */
+    notice.style.display = 'none';
+
+    /* restore page scrolling */
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+
+    document.documentElement.style.height = '';
+    document.body.style.height = '';
+
+    document.body.style.position = '';
+
+    /* refresh scroll positions */
+    if(window.ScrollTrigger){
+      ScrollTrigger.refresh();
+    }
+
+  });
+
+}
 /* ─────────────────────────────────────────────
    NAV — subtle behaviour only
    ───────────────────────────────────────────── */
@@ -578,19 +899,27 @@ function navBehaviour() {
    boot
    ───────────────────────────────────────────── */
 function init() {
+desktopNotice();
+
   bindLetterHover(line1Chars);
   bindLetterHover(swapChars);
 
   heroIntro();
   heroAmbient();
   heroTransition();
+
   headingReveals();
   workGrid();
   funSection();
   peekSection();
-  peekCtaTransition();
-  ctaSection();
+
+  /* About footer */
+  aboutFooter();
+
   navBehaviour();
+
+  /* custom cursor */
+  customCursor();
 
   ScrollTrigger.refresh();
 }
