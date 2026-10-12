@@ -72,7 +72,7 @@
   .c-progress .seg { height:2.5px; width:30px; border-radius:2px; background:#F2F0EC; opacity:.25; transition:opacity .35s ease, width .35s ease; cursor:pointer; }
   .c-progress .seg.done { opacity:.5; }
   .c-progress .seg.current { opacity:1; width:46px; }
-/* ============ WORK 3 NAV — SAME AS HOME ============ */
+/* ============ WORK 1 NAV — SAME AS HOME ============ */
 
 .work-nav__back{
   position:fixed;
